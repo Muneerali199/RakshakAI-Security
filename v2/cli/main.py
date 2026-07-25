@@ -61,7 +61,7 @@ class ModelCompleter:
         "/help", "/model", "/models", "/parallel",
         "/scan", "/scan-project", "/explain", "/fix",
         "/batch", "/watch", "/watch-stop",
-        "/diff", "/precommit", "/test", "/share",
+        "/diff", "/precommit", "/gate", "/test", "/share",
         "/index", "/search",
         "/history", "/log", "/stats", "/dashboard",
         "/confirm", "/dismiss", "/cost",
@@ -516,17 +516,46 @@ class RakshakREPL:
         return True
 
     def _handle_precommit(self, args: str) -> bool:
-        from v2.cli.git_scanner import install_precommit_hook, uninstall_precommit_hook, is_hook_installed
         a = args.strip().lower()
-        if a == "install":
-            show_success("Hook installed") if install_precommit_hook(".") else show_error("Not a git repo")
+        if a == "install" or a == "":
+            from v2.cli.security_gate import install_security_gate
+            try:
+                results = install_security_gate(".")
+                console.print("[green]✅ Security Gate installed[/]")
+                console.print(f"  Pre-commit hook: {'✅' if results['pre_commit'] else '❌'}")
+                console.print(f"  Pre-push hook:   {'✅' if results['pre_push'] else '❌'}")
+                console.print(f"  Config:          {'✅' if results['config'] else '❌'}")
+                console.print("\n[dim]Commits with critical/high vulnerabilities will be blocked.[/]")
+                console.print("[dim]Bypass with: git commit --no-verify[/]\n")
+            except Exception as e:
+                show_error(f"Failed to install: {e}")
         elif a == "uninstall":
-            show_success("Hook removed") if uninstall_precommit_hook(".") else show_error("Hook not found")
+            from v2.cli.security_gate import uninstall_security_gate
+            results = uninstall_security_gate(".")
+            if results.get("pre_commit") or results.get("pre_push"):
+                console.print("[green]✅ Security Gate removed[/]")
+            else:
+                show_error("No RakshakAI hooks found")
         elif a == "status":
-            show_status("Installed" if is_hook_installed(".") else "Not installed")
+            from v2.cli.security_gate import get_gate_status
+            status = get_gate_status(".")
+            if status.get("installed"):
+                console.print("[green]✅ Security Gate installed[/]")
+                console.print(f"  Pre-commit: {'✅ blocks commits with critical/high vulns' if status['pre_commit'] else '❌'}")
+                console.print(f"  Pre-push:   {'✅ blocks push with critical/high vulns' if status['pre_push'] else '❌'}")
+                cfg = status.get("config", {})
+                if cfg:
+                    console.print(f"  Block on:   {', '.join(cfg.get('block_on', ['critical', 'high']))}")
+                    console.print(f"  Server:     {cfg.get('server_url', 'http://localhost:8080')}")
+            else:
+                console.print("[yellow]Security Gate not installed[/]")
+                console.print("[dim]Run: /gate install[/]\n")
         else:
-            show_error("Usage: /precommit [install|uninstall|status]")
+            show_error("Usage: /gate [install|uninstall|status]")
         return True
+
+    def _handle_gate(self, args: str) -> bool:
+        return self._handle_precommit(args)
 
     def _handle_history(self, args: str) -> bool:
         if not args.strip():
@@ -1959,6 +1988,7 @@ dependencies = ["click"]
                     "/watch-stop": self._handle_watch_stop,
                     "/diff": self._handle_diff,
                     "/precommit": self._handle_precommit,
+                    "/gate": self._handle_gate,
                     "/test": self._handle_test,
                     "/share": self._handle_share,
                     "/index": self._handle_index,
