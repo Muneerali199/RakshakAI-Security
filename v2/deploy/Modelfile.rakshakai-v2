@@ -1,0 +1,20 @@
+# RakshakAI v2 GGUF Modelfile (Ollama)
+# Build:  ollama create rakshakai-v2 -f Modelfile.rakshakai-v2
+# Run:    ollama run rakshakai-v2
+
+FROM ./rakshakai-v2-Q5_K_M.gguf
+
+TEMPLATE """<|im_start|>system
+{{ .System }}<|im_end|>
+<|im_start|>user
+{{ .Prompt }}<|im_end|>
+<|im_start|>assistant
+"""
+
+SYSTEM "You are RakshakAI v2, a security-specialized code analysis model. Respond as a single JSON object with the fields: vulnerability, cwe, severity, confidence, root_cause, attack_scenario, secure_fix, patched_code, references. No prose outside JSON."
+
+PARAMETER temperature 0
+PARAMETER top_p 1
+PARAMETER num_ctx 8192
+PARAMETER stop "<|im_end|>"
+PARAMETER stop "```"

@@ -1,0 +1,90 @@
+# RakshakAI v2 — B200 QLoRA Config (Fallback / Fast iteration)
+# Use if you want sub-6h training with more time for eval
+# Hardware: 1× NVIDIA B200 (192GB HBM3e)
+
+base_model: Qwen/Qwen2.5-Coder-7B-Instruct
+
+dataset:
+  - path: v2/inputs/datasets/axolotl/train.jsonl
+    type: jsonl
+    split: train
+    chat_template: chatml
+    field_messages: messages
+
+eval_dataset:
+  - path: v2/inputs/datasets/axolotl/val.jsonl
+    type: jsonl
+    split: val
+    chat_template: chatml
+    field_messages: messages
+
+val_set_size: 0
+dataset_prepared_path: v2/runs/b200_qlora_prepared
+
+# QLoRA
+load_in_4bit: true
+lora_r: 64
+lora_alpha: 128
+lora_dropout: 0.05
+lora_target_modules:
+  - q_proj
+  - k_proj
+  - v_proj
+  - o_proj
+  - gate_proj
+  - up_proj
+  - down_proj
+lora_modules_to_save:
+  - embed_tokens
+  - lm_head
+
+# Training
+optimizer: adamw_8bit
+learning_rate: 2e-5
+lr_scheduler: cosine
+warmup_ratio: 0.03
+weight_decay: 0.01
+num_epochs: 3
+
+eval_strategy: steps
+eval_steps: 200
+eval_sample_max_num: 500
+metric_for_best_model: eval_loss
+load_best_model_at_end: true
+early_stopping_patience: 3
+
+# Batch
+micro_batch_size: 32  # QLoRA is tiny — max out batch
+gradient_accumulation_steps: 2  # effective batch = 64
+sequence_len: 4096
+train_on_inputs: false
+
+output_dir: v2/runs/b200_qlora
+save_strategy: steps
+save_steps: 500
+save_total_limit: 2
+save_only_model: true
+
+bf16: true
+tf32: true
+flash_attention: true
+gradient_checkpointing: true
+gradient_checkpointing_kwargs:
+  use_reentrant: false
+
+sample_packing: true
+group_by_length: true
+dataloader_num_workers: 8
+dataloader_pin_memory: true
+
+logging_steps: 10
+report_to: tensorboard
+logging_dir: v2/runs/b200_qlora/logs
+
+special_tokens:
+  pad_token: "<|endoftext|>"
+
+resume_from_checkpoint: true
+auto_resume_from_checkpoints: true
+
+seed: 42

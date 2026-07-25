@@ -1,0 +1,66 @@
+# RakshakAI v2 — Qwen3.5-9B QLoRA on reasoning traces + SFT
+# Hardware: 1× NVIDIA A100 (80GB) or A10G (24GB, reduce batch to 16), ~3-4 hours, ~6-9 credits
+# Base: Qwen3.5-9B (same as RealMythos pocwriter-v1, but 42x more training data)
+
+adapter: qlora
+base_model: Qwen/Qwen3.5-9B
+bf16: true
+torch_dtype: bfloat16
+trust_remote_code: true
+auto_resume_from_checkpoints: true
+dataloader_num_workers: 4
+dataset_prepared_path: v2/prepared/rakshak_sft
+datasets:
+- chat_template: chatml
+  field_messages: messages
+  path: v2/inputs/datasets/train_merged.jsonl
+  split: train
+  type: chat_template
+eval_datasets:
+- chat_template: chatml
+  field_messages: messages
+  path: v2/inputs/datasets/val_merged.jsonl
+  split: val
+  type: chat_template
+eval_sample_max_num: 100
+eval_steps: 500
+eval_strategy: steps
+flash_attention: true
+gradient_accumulation_steps: 2
+gradient_checkpointing: true
+group_by_length: true
+learning_rate: 2e-4
+load_in_4bit: true
+logging_steps: 10
+lora_alpha: 64
+lora_dropout: 0.05
+lora_modules_to_save:
+- embed_tokens
+- lm_head
+lora_r: 32
+lora_target_modules:
+- q_proj
+- k_proj
+- v_proj
+- o_proj
+- gate_proj
+- up_proj
+- down_proj
+lr_scheduler: cosine
+micro_batch_size: 32
+num_epochs: 1
+optimizer: adamw_8bit
+output_dir: v2/model/rakshak_sft
+report_to: none
+rl_beta: null
+sample_packing: true
+save_steps: 500
+save_strategy: steps
+save_total_limit: 2
+seed: 42
+sequence_len: 4096
+special_tokens:
+  pad_token: <|endoftext|>
+tf32: true
+train_on_inputs: false
+warmup_ratio: 0.03

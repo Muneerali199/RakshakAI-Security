@@ -1,0 +1,66 @@
+# RakshakAI Ignore File
+# Patterns for files and directories to exclude from scanning
+
+# Dependencies
+node_modules
+vendor
+bower_components
+.pnp
+.pnp.js
+
+# Build outputs
+dist
+build
+out
+target
+*.min.js
+*.bundle.js
+*.chunk.js
+
+# Cache directories
+.cache
+.parcel-cache
+.next
+.nuxt
+.vuepress/dist
+.serverless
+.fusebox
+.dynamodb
+
+# Testing
+coverage
+.nyc_output
+__snapshots__
+.pytest_cache
+.tox
+
+# Environment
+.env.local
+.env.*.local
+*.log
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+*~
+
+# Python
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.Python
+venv
+.venv
+ENV
+env
+
+# System
+.DS_Store
+Thumbs.db
+
+# Documentation (optional)
+# docs
+# *.md

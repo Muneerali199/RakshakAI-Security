@@ -1,0 +1,82 @@
+# RakshakAI v2 — Phase C: SFT on synthetic prompt→secure-code pairs
+# Teaches the model to act as a coding assistant (vuln→fix, prompt→secure).
+# Data: synthetic instruction pairs from v1 templates + LLM-augmented
+# Time: ~1.8 h on 1× MI300X → ~$3.60
+
+base_model: Qwen/Qwen2.5-Coder-7B-Instruct
+model_type: Qwen2ForCausalLM
+tokenizer_type: Qwen2Tokenizer
+
+output_dir: /workspace/rakshakai/v2/outputs/runs/phase_c
+run_name: rakshakai-v2-phaseC
+
+load_in_4bit: true
+bnb_4bit_quant_type: nf4
+bnb_4bit_use_double_quant: true
+bnb_4bit_compute_dtype: bfloat16
+
+adapter: lora
+lora_r: 64
+lora_alpha: 128
+lora_dropout: 0.05
+lora_target_modules: all-linear
+lora_modules_to_save: ["lm_head", "embed_tokens"]
+lora_use_rslora: true
+lora_bias: none
+
+sequence_len: 4096
+sample_packing: true
+flash_attention: true
+pad_to_sequence_len: false
+micro_batch_size: 4
+gradient_accumulation_steps: 8
+eval_batch_size: 4
+
+optimizer: paged_adamw_8bit
+lr: 1.0e-4
+lr_scheduler: cosine
+warmup_ratio: 0.03
+weight_decay: 0.0
+max_grad_norm: 1.0
+bf16: true
+tf32: false
+gradient_checkpointing: true
+gradient_checkpointing_kwargs:
+  use_reentrant: false
+neftune_noise_alpha: 5
+
+datasets:
+  - path: /workspace/rakshakai/v2/inputs/datasets/pack/phase_c
+    type: custom_jsonl
+    field: messages
+    roles:
+      user: user
+      assistant: assistant
+      system: system
+
+dataset_prepared_path: /workspace/rakshakai/v2/inputs/datasets/pack/phase_c_prepared
+
+val_set_size: 0.02
+evals_per_epoch: 4
+eval_steps: 60
+save_steps: 60
+save_total_limit: 3
+save_strategy: steps
+evaluation_strategy: steps
+load_best_model_at_end: true
+metric_for_best_model: eval_loss
+greater_is_better: false
+early_stopping_patience: 4
+early_stopping_threshold: 0.001
+
+max_steps: 2500
+warmup_steps: 75
+
+logging_steps: 10
+report_to: wandb
+wandb_project: rakshakai-v2
+wandb_run_name: phaseC-qwen7b-qlora
+
+seed: 44
+special_tokens:
+  pad_token: "<|endoftext|>"

@@ -1,0 +1,89 @@
+# RakshakAI 14B DPO - FIXED VERSION
+# Changes from original:
+# - Increased learning rate (5e-6→1e-5)
+# - Increased sequence length (2048→4096)
+# - Added gradient clipping (max_grad_norm: 0.5)
+# - Increased epochs (1→2) for better preference learning
+# - Better eval settings
+
+adapter: v2/model/sft_14b  # Load SFT adapter as base
+base_model: Qwen/Qwen2.5-Coder-14B-Instruct
+bf16: true
+dataloader_num_workers: 2
+dataset_prepared_path: v2/prepared/dpo_14b
+
+datasets:
+  - type: dpo
+    chat_template: chatml
+    field_chosen: chosen
+    field_rejected: rejected
+    path: v2/inputs/datasets/axolotl/dpo_train.jsonl
+    split: train
+
+# Evaluation (no eval set for DPO, just train)
+eval_sample_max_num: 200
+eval_steps: 100
+eval_strategy: steps
+
+# Training hyperparameters
+learning_rate: 1e-5      # INCREASED from 5e-6 (DPO needs higher LR)
+num_epochs: 2            # INCREASED from 1 (more preference learning)
+warmup_ratio: 0.1
+lr_scheduler: cosine
+optimizer: adamw_8bit
+
+# Batch settings
+micro_batch_size: 8
+gradient_accumulation_steps: 1  # Effective batch = 8 (smaller for DPO)
+
+# Memory optimization
+load_in_4bit: true
+gradient_checkpointing: true
+flash_attention: true
+bf16: true
+tf32: true
+
+# Gradient control (NEW - DPO can be unstable)
+max_grad_norm: 0.5  # More aggressive clipping for DPO
+
+# LoRA settings
+lora_r: 32
+lora_alpha: 64  # Higher alpha for DPO (2x the rank)
+lora_dropout: 0.05
+lora_target_modules:
+  - q_proj
+  - k_proj
+  - v_proj
+  - o_proj
+  - gate_proj
+  - up_proj
+  - down_proj
+lora_modules_to_save:
+  - embed_tokens
+  - lm_head
+
+# Data settings
+sequence_len: 4096       # INCREASED from 2048 to match SFT
+sample_packing: false    # DPO doesn't support packing
+train_on_inputs: false
+
+# DPO-specific settings
+rl: dpo
+rl_beta: 0.1  # KL penalty coefficient (standard value)
+
+# Checkpoint settings
+output_dir: v2/model/dpo_14b
+save_strategy: steps
+save_steps: 100
+save_total_limit: 2  # Only keep 2 checkpoints (DPO is fast)
+
+# Logging
+logging_steps: 10
+report_to: none
+
+# Tokenization
+special_tokens:
+  pad_token: <|endoftext|>
+
+# Reproducibility
+seed: 42

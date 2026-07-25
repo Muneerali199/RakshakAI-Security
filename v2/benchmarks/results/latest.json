@@ -1,0 +1,10 @@
+{
+  "vulnerability_detection_f1": 0.9714,
+  "vulnerability_detection_accuracy": 0.9444,
+  "cwe_exact_accuracy": 1.0,
+  "cwe_family_accuracy": 1.0,
+  "severity_exact_accuracy": 1.0,
+  "total_samples": 72,
+  "total_time_s": 0.0,
+  "avg_time_per_sample_s": 0.0
+}

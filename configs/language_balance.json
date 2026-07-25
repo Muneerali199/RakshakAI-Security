@@ -1,0 +1,32 @@
+{
+  "language_weights": {
+    "c": 0.10,
+    "cpp": 0.03,
+    "java": 0.15,
+    "javascript": 0.15,
+    "python": 0.15,
+    "php": 0.08,
+    "go": 0.07,
+    "rust": 0.05,
+    "csharp": 0.04,
+    "typescript": 0.03,
+    "ruby": 0.03,
+    "swift": 0.02,
+    "kotlin": 0.02,
+    "scala": 0.01,
+    "perl": 0.01,
+    "erlang": 0.005,
+    "elixir": 0.005,
+    "haskell": 0.005,
+    "lua": 0.005,
+    "r": 0.005,
+    "shell": 0.005,
+    "sql": 0.005,
+    "html": 0.005,
+    "xml": 0.005,
+    "json": 0.005,
+    "text": 0.0
+  },
+  "description": "Target distribution: C <10%, boost Python/JS/Java to 15% each",
+  "version": 3
+}

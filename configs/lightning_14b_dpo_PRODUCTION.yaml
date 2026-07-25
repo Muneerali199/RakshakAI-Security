@@ -1,0 +1,87 @@
+# RakshakAI 14B DPO - PRODUCTION CONFIG
+# Uses SFT adapter as base, trains on 7K preference pairs
+# All critical fixes applied
+
+adapter: v2/model/sft_14b  # Load SFT adapter as base
+base_model: Qwen/Qwen2.5-Coder-14B-Instruct
+bf16: true
+dataloader_num_workers: 2
+dataset_prepared_path: v2/prepared/dpo_14b
+
+datasets:
+  - path: v2/inputs/datasets/axolotl/dpo_train_processed.jsonl
+    ds_type: json
+    data_files:
+      - v2/inputs/datasets/axolotl/dpo_train_processed.jsonl
+    split: train
+
+# Evaluation
+eval_sample_max_num: 200
+eval_steps: 100
+eval_strategy: steps
+
+# Training hyperparameters
+learning_rate: 1e-5      # Higher than original 5e-6
+num_epochs: 2            # 2 epochs for better preference learning
+warmup_steps: 174  # ~10% of 1744 total steps (7K samples, bs=8, 2 epochs)
+lr_scheduler: cosine
+optimizer: adamw_8bit
+
+# Batch settings
+micro_batch_size: 8
+gradient_accumulation_steps: 1  # Effective batch = 8
+
+# Memory optimization
+load_in_4bit: true
+bnb_4bit_compute_dtype: bfloat16
+bnb_4bit_use_double_quant: true
+bnb_4bit_quant_type: nf4
+gradient_checkpointing: true
+flash_attention: false
+bf16: true
+tf32: true
+
+# Gradient control (DPO can be unstable)
+max_grad_norm: 0.5
+
+# LoRA settings
+lora_r: 32
+lora_alpha: 64  # 2x the rank for DPO
+lora_dropout: 0.05
+lora_target_modules:
+  - q_proj
+  - k_proj
+  - v_proj
+  - o_proj
+  - gate_proj
+  - up_proj
+  - down_proj
+lora_modules_to_save:
+  - embed_tokens
+  - lm_head
+
+# Data settings
+sequence_len: 4096       # Match SFT (increased from 2048)
+sample_packing: false    # DPO doesn't support packing
+train_on_inputs: false
+
+# DPO-specific
+rl: dpo
+rl_beta: 0.1
+
+# Checkpoint settings
+output_dir: v2/model/dpo_14b
+save_strategy: steps
+save_steps: 100
+save_total_limit: 2
+
+# Logging
+logging_steps: 10
+report_to: none
+
+# Tokenization
+special_tokens:
+  pad_token: <|endoftext|>
+
+# Reproducibility
+seed: 42

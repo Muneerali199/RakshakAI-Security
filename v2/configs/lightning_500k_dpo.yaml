@@ -1,0 +1,53 @@
+adapter: v2/model/sft_500k
+base_model: Qwen/Qwen2.5-Coder-7B-Instruct
+bf16: true
+dataloader_num_workers: 2
+dataset_prepared_path: v2/prepared/dpo_500k
+datasets:
+- chat_template: chatml
+  field_chosen: chosen
+  field_rejected: rejected
+  path: v2/inputs/datasets/axolotl/dpo_train.jsonl
+  split: train
+  type: dpo
+eval_sample_max_num: 200
+eval_steps: 100
+eval_strategy: steps
+flash_attention: true
+gradient_accumulation_steps: 1
+gradient_checkpointing: true
+learning_rate: 5e-6
+load_in_4bit: true
+logging_steps: 10
+lora_alpha: 32
+lora_dropout: 0.05
+lora_modules_to_save:
+- embed_tokens
+- lm_head
+lora_r: 32
+lora_target_modules:
+- q_proj
+- k_proj
+- v_proj
+- o_proj
+- gate_proj
+- up_proj
+- down_proj
+lr_scheduler: cosine
+micro_batch_size: 8
+num_epochs: 1
+optimizer: adamw_8bit
+output_dir: v2/model/dpo_500k
+report_to: none
+rl: dpo
+rl_beta: 0.1
+sample_packing: false
+save_steps: 100
+save_strategy: steps
+save_total_limit: 1
+seed: 42
+sequence_len: 2048
+special_tokens:
+  pad_token: <|endoftext|>
+tf32: true
+warmup_ratio: 0.1

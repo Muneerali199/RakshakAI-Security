@@ -1,0 +1,90 @@
+# RakshakAI 14B SFT - PRODUCTION CONFIG WITH REASONING
+# Dataset: 259K samples (250K original + 9K reasoning traces)
+# Changes from v2:
+# - Uses train_87k_with_reasoning.jsonl (HAS REASONING TRACES!)
+# - Optimized for A100 80GB on Lightning.ai
+# - All critical fixes applied (gradient clipping, early stopping, etc.)
+
+adapter: qlora
+base_model: Qwen/Qwen2.5-Coder-14B-Instruct
+bf16: true
+dataloader_num_workers: 4
+dataset_prepared_path: v2/prepared/sft_14b
+
+datasets:
+  - type: chat_template
+    chat_template: chatml
+    field_messages: messages
+    path: v2/inputs/datasets/axolotl/train_87k_with_reasoning.jsonl
+    split: train
+
+eval_strategy: "no"        # Skip eval to maximize training budget
+
+# Training hyperparameters
+learning_rate: 1.5e-4
+num_epochs: 1
+max_steps: 750  # Fit within $12 budget at ~5.5h (23s/step)
+warmup_ratio: 0.03
+lr_scheduler: cosine
+optimizer: paged_adamw_8bit
+
+# Batch settings
+micro_batch_size: 2
+gradient_accumulation_steps: 8  # Effective batch = 16
+
+# Memory optimization  
+load_in_4bit: true
+bnb_4bit_compute_dtype: bfloat16
+bnb_4bit_use_double_quant: true
+bnb_4bit_quant_type: nf4
+gradient_checkpointing: true
+flash_attention: false
+bf16: true
+tf32: true
+
+# Gradient control (prevents NaN losses)
+max_grad_norm: 1.0
+
+# LoRA settings
+lora_r: 32
+lora_alpha: 32
+lora_dropout: 0.05
+lora_target_modules:
+  - q_proj
+  - k_proj
+  - v_proj
+  - o_proj
+  - gate_proj
+  - up_proj
+  - down_proj
+lora_modules_to_save:
+  - embed_tokens
+  - lm_head
+
+# Data settings
+sequence_len: 2048
+sample_packing: true
+group_by_length: true
+train_on_inputs: false  # Don't compute loss on prompts
+
+# Checkpoint settings
+output_dir: v2/model/sft_14b
+save_strategy: steps
+save_steps: 375  # Save mid-training (@375) and final (@750)
+save_total_limit: 3  # Keep best 3 checkpoints
+
+# Early stopping disabled (causes assertion errors with axolotl 0.6.0 / TRL)
+
+# Logging
+logging_steps: 10
+report_to: none
+
+# Tokenization
+special_tokens:
+  pad_token: <|endoftext|>
+
+# Reproducibility
+seed: 42
+
+# Not used in SFT
+rl_beta: null

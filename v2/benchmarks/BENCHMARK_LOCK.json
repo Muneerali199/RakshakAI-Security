@@ -1,0 +1,8 @@
+{
+  "file": "v2/benchmarks/security_benchmark.jsonl",
+  "n_samples": 31,
+  "sha256": "52821a534de4a050f569f578d5af14b72eff9638303b0be042da2c87a706db86",
+  "generated_at": "2026-06-07T15:13:19+00:00",
+  "do_not_train": true,
+  "review_required_for_changes": true
+}

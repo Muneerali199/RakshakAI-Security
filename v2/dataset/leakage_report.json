@@ -1,0 +1,33 @@
+{
+  "benchmark_count": 50,
+  "train_count": 320100,
+  "checks": {
+    "exact_fingerprint_match": {
+      "benchmark_unique": 50,
+      "train_unique": 320100,
+      "overlap": [],
+      "overlap_count": 0
+    },
+    "cve_match": {
+      "benchmark_cves": 0,
+      "train_cves": 46130,
+      "overlap": [],
+      "overlap_count": 0
+    },
+    "repo_overlap": {
+      "benchmark_repos": 0,
+      "train_repos": 0,
+      "overlap": [],
+      "overlap_count": 0
+    },
+    "commit_overlap": {
+      "benchmark_commits": 0,
+      "train_commits": 0,
+      "overlap": [],
+      "overlap_count": 0
+    }
+  },
+  "leaks": [],
+  "clean": true,
+  "total_leaks": 0
+}

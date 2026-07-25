@@ -1,0 +1,124 @@
+# RakshakAI v2 Phase B - OPTIMIZED for beating trillion-param models
+# Target: Outperform general large models on security through domain specialization
+# Budget: $70 (~35 GPU hours on MI300X)
+# Expected training time: ~28 hours
+
+base_model: Qwen/Qwen2.5-Coder-7B-Instruct
+
+# Dataset - ASSUMES YOU'VE RUN IMPROVEMENT PLAN
+dataset:
+  - path: Muneerali199/RakshakAI-phase-b-v2  # Use improved dataset when ready
+    name: axolotl
+    type: hf
+    split: train
+    chat_template: chatml
+
+eval_dataset:
+  - path: Muneerali199/RakshakAI-phase-b-v2
+    name: axolotl
+    type: hf
+    split: val
+    chat_template: chatml
+
+val_set_size: 0
+dataset_prepared_path: v2/runs/phase_b_optimized_prepared
+
+# LoRA - OPTIMIZED for security task
+# Increased rank for more capacity (still efficient)
+lora_r: 64  # UP from 32 - more capacity for 350K samples
+lora_alpha: 128  # UP from 64 - proportional scaling
+lora_dropout: 0.05
+lora_target_modules:
+  - q_proj
+  - k_proj
+  - v_proj
+  - o_proj
+  - gate_proj
+  - up_proj
+  - down_proj
+  # Consider adding embed_tokens and lm_head for better task adaptation
+lora_modules_to_save:
+  - embed_tokens
+  - lm_head
+
+# Training - OPTIMIZED for domain specialization
+optimizer: adamw_8bit  # Memory-efficient
+learning_rate: 2e-5  # LOWER from 5e-5 - more stable for larger dataset
+lr_scheduler: cosine_with_restarts  # Better than plain cosine
+warmup_ratio: 0.03  # 3% warmup (better than fixed 100 steps with 350K samples)
+weight_decay: 0.01  # Add regularization
+num_epochs: 3
+
+# Eval - MORE FREQUENT for early stopping
+eval_strategy: steps
+eval_steps: 50  # DOWN from 100 - catch overfitting earlier
+eval_sample_max_num: 500  # UP from 200 - more reliable metrics
+metric_for_best_model: eval_loss
+greater_is_better: false
+load_best_model_at_end: true
+early_stopping_patience: 5  # DOWN from 10 - stop earlier if not improving
+
+# Batch - MAXIMIZED for MI300X (192GB VRAM)
+micro_batch_size: 8  # UP from 6 - you have 192GB VRAM
+gradient_accumulation_steps: 8  # UP from 6 - effective batch = 64
+sequence_len: 4096
+train_on_inputs: false  # Only learn from assistant responses
+pad_to_sequence_len: true  # Consistent batch size
+
+# Saving - AGGRESSIVE pruning to save disk space
+output_dir: v2/runs/phase_b_optimized
+save_strategy: steps
+save_steps: 500  # LESS frequent - save disk space (5TB scratch, but still)
+save_total_limit: 2  # Keep only best + last (down from 3)
+save_only_model: true  # Don't save optimizer state (lighter checkpoints)
+
+# Precision - OPTIMAL for MI300X
+bf16: true  # MI300X supports bf16 natively
+tf32: true  # Extra precision for matmuls
+fp16: false  # Use bf16 instead
+
+# Memory optimization - CRITICAL for long sequences
+flash_attention: true  # 2-3× memory reduction
+gradient_checkpointing: true  # Trade compute for memory
+gradient_checkpointing_kwargs:
+  use_reentrant: false  # Better for newer PyTorch
+
+# Logging - DETAILED for analysis
+logging_steps: 10
+report_to: tensorboard  # Enable TensorBoard (not "none")
+logging_dir: v2/runs/phase_b_optimized/logs
+logging_first_step: true
+
+# Special tokens
+special_tokens:
+  pad_token: "<|endoftext|>"
+
+# Advanced optimizations for MI300X
+# These squeeze out extra performance
+fsdp: false  # Single GPU, no need
+deepspeed: false  # LoRA works best without DeepSpeed
+group_by_length: true  # NEW: Batch similar lengths together (faster)
+dataloader_num_workers: 4  # NEW: Parallel data loading
+dataloader_pin_memory: true  # NEW: Faster GPU transfer
+
+# Sample packing - CRITICAL for efficiency
+# This packs multiple samples into one sequence (up to 4096 tokens)
+# Dramatically improves throughput
+sample_packing: true  # NEW: 30-50% speedup
+pad_to_sequence_len: false  # Conflicts with sample_packing
+
+# Curriculum learning - OPTIONAL but powerful
+# Train on easier samples first, then harder ones
+# Uncomment if you add difficulty scores to metadata
+# curriculum_learning: true
+# curriculum_by_key: "metadata.difficulty"
+
+# Label smoothing - Prevent overconfidence
+label_smoothing: 0.05  # NEW: Small amount helps generalization
+
+# Resume from checkpoint if interrupted
+resume_from_checkpoint: true
+auto_resume_from_checkpoints: true
+
+# Seed for reproducibility
+seed: 42

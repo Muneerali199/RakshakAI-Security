@@ -1,0 +1,75 @@
+base_model: Qwen/Qwen2.5-Coder-7B-Instruct
+
+# Training dataset (axolotl format with messages column)
+dataset:
+  - path: Muneerali199/RakshakAI-phase-b
+    name: axolotl
+    type: hf
+    split: train
+    chat_template: chatml
+
+# Evaluation dataset (separate — NOT mixed into training)
+eval_dataset:
+  - path: Muneerali199/RakshakAI-phase-b
+    name: axolotl
+    type: hf
+    split: val
+    chat_template: chatml
+
+val_set_size: 0
+
+dataset_prepared_path: v2/runs/phase_b_prepared
+
+# LoRA
+lora_r: 32
+lora_alpha: 64
+lora_dropout: 0.05
+lora_target_modules:
+  - q_proj
+  - k_proj
+  - v_proj
+  - o_proj
+  - gate_proj
+  - up_proj
+  - down_proj
+
+# Training
+optimizer: adamw_8bit
+learning_rate: 5e-5
+lr_scheduler: cosine
+warmup_steps: 100
+num_epochs: 3
+
+# Eval
+eval_strategy: steps
+eval_steps: 100
+eval_sample_max_num: 200
+metric_for_best_model: eval_loss
+load_best_model_at_end: true
+early_stopping_patience: 10
+
+# Batch
+micro_batch_size: 6
+gradient_accumulation_steps: 6
+sequence_len: 4096
+train_on_inputs: false
+
+# Saving
+output_dir: v2/runs/phase_b_sft
+save_strategy: steps
+save_steps: 100
+save_total_limit: 3
+
+# Precision
+bf16: auto
+tf32: true
+
+# Misc
+logging_steps: 10
+report_to: none
+flash_attention: true
+gradient_checkpointing: true
+
+# Special tokens
+special_tokens:
+  pad_token: "<|endoftext|>"
