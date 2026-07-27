@@ -1,0 +1,37 @@
+{
+  "model_name": "RakshakAI",
+  "version": "1.0.0",
+  "full_name": "RakshakAI",
+  "tagline": "India's First Security AI",
+  "origin": "Made in India",
+  "base_model": "microsoft/codebert-base",
+  "total_samples": 10100,
+  "train_samples": 8080,
+  "val_samples": 1010,
+  "test_samples": 1010,
+  "vulnerable_samples": 9200,
+  "secure_samples": 900,
+  "classes": 13,
+  "cwe_mappings": {
+    "SQL_INJECTION": "CWE-89",
+    "XSS": "CWE-79",
+    "COMMAND_INJECTION": "CWE-78",
+    "HARDCODED_SECRET": "CWE-798",
+    "PATH_TRAVERSAL": "CWE-22",
+    "WEAK_CRYPTO": "CWE-327",
+    "SSTI": "CWE-94",
+    "INSECURE_DESERIALIZATION": "CWE-502",
+    "JWT_VULNERABILITY": "CWE-347",
+    "REDOS": "CWE-1333",
+    "SSRF": "CWE-918",
+    "XXE": "CWE-611"
+  },
+  "owasp_coverage": [
+    "A07:2021",
+    "A10:2021",
+    "A03:2021",
+    "A02:2021",
+    "A01:2021",
+    "A04:2021"
+  ]
+}

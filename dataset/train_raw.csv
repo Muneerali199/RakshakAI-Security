@@ -1,0 +1,56 @@
+code,language,label,is_vulnerable
+"query = ""SELECT * FROM users WHERE id = "" + user_id",python,SQL_INJECTION,1
+"cursor.execute(""SELECT * FROM users WHERE name = '"" + username + ""'"")",python,SQL_INJECTION,1
+"db.query(""SELECT * FROM items WHERE "" + filter)",python,SQL_INJECTION,1
+"document.getElementById(""output"").innerHTML = userInput",python,XSS,1
+element.innerHTML = req.params.value,python,XSS,1
+"$(""#div"").html(userContent);",python,XSS,1
+"os.system(""ping "" + user_input)",python,COMMAND_INJECTION,1
+"subprocess.call(""ls "" + directory, shell=True)",python,COMMAND_INJECTION,1
+"exec(""cat "" + filename)",python,COMMAND_INJECTION,1
+"API_KEY = ""sk_live_abc123xyz""",python,HARDCODED_SECRET,1
+"password = ""admin123""",python,HARDCODED_SECRET,1
+"const SECRET = ""my-secret-token""",javascript,HARDCODED_SECRET,1
+"open(""uploads/"" + filename)",python,PATH_TRAVERSAL,1
+File.new(path + user_file),python,PATH_TRAVERSAL,1
+f = open(request.params.file),python,PATH_TRAVERSAL,1
+"bcrypt.hashpw(password, bcrypt.gensalt(1))",python,WEAK_CRYPTO,1
+"Security.setProperty(""crypto.policy"", ""unlimited"")",python,WEAK_CRYPTO,1
+"Template(""Hello "" + user)",python,SSTI,1
+render_template_string(user_input),python,SSTI,1
+"f""Welcome {username}""",python,SSTI,1
+pickle.loads(data),python,INSECURE_DESERIALIZATION,1
+yaml.load(user_data),python,INSECURE_DESERIALIZATION,1
+ObjectInputStream.readObject(),python,INSECURE_DESERIALIZATION,1
+"jwt.decode(token, options={""verify_signature"": False})",python,JWT_VULNERABILITY,1
+"jwt.decode(token, algorithms=[""RS256""], options={""verify"": False})",python,JWT_VULNERABILITY,1
+regex = /^(a+)+$/,python,REDOS,1
+pattern.match(userInput),python,REDOS,1
+"new RegExp(userInput + ""+"")",python,REDOS,1
+"@app.post(""/transfer"") def transfer(): pass",python,CSRF,1
+"@PostMapping(""/update"") public void update():",python,CSRF,1
+"router.post(""/delete"", handler)",python,CSRF,1
+"redirect(params.get(""url""))",python,OPEN_REDIRECT,1
+return ResponseEntity.status(302).location(new URI(url)).build(),python,OPEN_REDIRECT,1
+res.redirect(userProvidedUrl),python,OPEN_REDIRECT,1
+user.getName()  # user might be null,python,NULL_DEREFERENCE,1
+obj.property,python,NULL_DEREFERENCE,1
+data.toString()  # no null check,python,NULL_DEREFERENCE,1
+conn = getConnection()  # never closed,python,MEMORY_LEAK,1
+file = open(path)  # never closed,python,MEMORY_LEAK,1
+new BufferedReader()  # never closed,python,MEMORY_LEAK,1
+try: pass,python,EMPTY_CATCH,1
+catch (Exception e) { },python,EMPTY_CATCH,1
+} catch(err) {},python,EMPTY_CATCH,1
+"strcpy(dest, userInput)",python,BUFFER_OVERFLOW,1
+"memcpy(buffer, input, size)",python,BUFFER_OVERFLOW,1
+"char s[10]; strcpy(s, user)",python,BUFFER_OVERFLOW,1
+if (balance >= amount) balance -= amount,python,RACE_CONDITION,1
+count = count + 1,python,RACE_CONDITION,1
+if (user.loggedIn) doSomething(),python,RACE_CONDITION,1
+"def get_user(user_id): return db.query('SELECT * FROM users WHERE id = ?', (user_id,))",python,CLEAN,0
+element.textContent = sanitizer.escape(userInput),python,CLEAN,0
+"subprocess.run(['ls', '-la', directory])",python,CLEAN,0
+password = os.environ.get('API_KEY'),python,CLEAN,0
+"filepath = os.path.join('uploads', os.path.basename(filename))",python,CLEAN,0
+hashlib.sha256(data).hexdigest(),python,CLEAN,0

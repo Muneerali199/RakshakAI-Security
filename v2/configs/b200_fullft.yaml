@@ -1,0 +1,104 @@
+# RakshakAI v2 — B200-Optimized Training Config
+# Target: Beat Mythos 5 & GPT-5.6 Terra on security benchmarks
+# Hardware: 1× NVIDIA B200 (192GB HBM3e)
+# Budget: $187.50 for 30 hours
+# Expected time: ~11-18 hours (full fine-tune, 2-3 epochs)
+
+base_model: Qwen/Qwen2.5-Coder-7B-Instruct
+
+# Dataset — local axolotl format
+dataset:
+  - path: v2/inputs/datasets/axolotl/train.jsonl
+    type: jsonl
+    split: train
+    chat_template: chatml
+    field_messages: messages
+
+eval_dataset:
+  - path: v2/inputs/datasets/axolotl/val.jsonl
+    type: jsonl
+    split: val
+    chat_template: chatml
+    field_messages: messages
+
+val_set_size: 0
+dataset_prepared_path: v2/runs/b200_prepared
+
+# FULL fine-tune (no LoRA) — B200 has 192GB, plenty for 7B
+# QLoRAd version is at v2/configs/b200_qlora.yaml if needed
+lora_r: 0
+lora_alpha: 0
+lora_dropout: 0
+lora_target_modules: []
+load_in_8bit: false
+load_in_4bit: false
+
+# Training — B200 optimized
+optimizer: adamw_torch_fused  # Fastest on B200 with CUDA
+learning_rate: 1.5e-5  # Lower for full fine-tune, stable
+lr_scheduler: cosine
+warmup_ratio: 0.03
+weight_decay: 0.01
+num_epochs: 2  # 2 epochs in ~11h, can add 3rd if time permits
+
+# Eval
+eval_strategy: steps
+eval_steps: 200
+eval_sample_max_num: 500
+metric_for_best_model: eval_loss
+greater_is_better: false
+load_best_model_at_end: true
+early_stopping_patience: 3
+
+# Batch — maxed for B200
+micro_batch_size: 16  # 7B BF16 full fine-tune, 192GB VRAM
+gradient_accumulation_steps: 4  # effective batch = 64
+sequence_len: 4096
+train_on_inputs: false
+pad_to_sequence_len: false  # Conflicts with sample_packing
+
+# Saving
+output_dir: v2/runs/b200_sft
+save_strategy: steps
+save_steps: 500
+save_total_limit: 2
+save_only_model: true
+
+# Precision
+bf16: true
+tf32: true
+fp16: false
+float16: false
+
+# Memory optimization
+flash_attention: true  # FA2 — B200 supports it natively
+gradient_checkpointing: true
+gradient_checkpointing_kwargs:
+  use_reentrant: false
+
+# Speed optimizations
+sample_packing: true  # 30-50% throughput gain
+group_by_length: true
+dataloader_num_workers: 8  # B200 has plenty of CPU cores
+dataloader_pin_memory: true
+dataloader_prefetch_factor: 4
+
+# Label smoothing
+label_smoothing: 0.05
+
+# Logging
+logging_steps: 10
+report_to: tensorboard
+logging_dir: v2/runs/b200_sft/logs
+logging_first_step: true
+
+# Special tokens
+special_tokens:
+  pad_token: "<|endoftext|>"
+
+# Resume
+resume_from_checkpoint: true
+auto_resume_from_checkpoints: true
+
+# Seed
+seed: 42

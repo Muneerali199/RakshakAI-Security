@@ -1,0 +1,41 @@
+# Datasets hosted on HuggingFace — not stored in git
+v2/inputs/datasets/
+rakshak_phase_b.tar.gz
+train_lightweight.py.bak
+.env
+.DS_Store
+cg-ml-env/
+/dataset/
+check_extraction.sh
+dedup_log.txt
+demo_vulnerable.*
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+*.egg-info
+dist/
+build/
+.eggs/
+*.egg
+
+# Env
+.env
+.venv/
+venv/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
+/tmp/
+node_modules/
+.env
+v2/model/rakshak_sft_fixed/

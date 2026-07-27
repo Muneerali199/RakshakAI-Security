@@ -1,0 +1,21 @@
+{
+  "name": "rakshakai-v2-action",
+  "version": "2.0.0",
+  "description": "GitHub Action: review a PR with RakshakAI v2.",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc -p .",
+    "package": "npx @vercel/ncc build src/index.ts -o dist"
+  },
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@actions/core": "^1.10.0",
+    "@actions/github": "^6.0.0",
+    "axios": "^1.7.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@vercel/ncc": "^0.38.0",
+    "typescript": "^5.4.0"
+  }
+}

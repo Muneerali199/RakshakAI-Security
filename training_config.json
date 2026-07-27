@@ -1,0 +1,16 @@
+{
+  "model_name": "microsoft/codebert-base",
+  "max_length": 256,
+  "batch_size": 4,
+  "gradient_accumulation_steps": 4,
+  "epochs": 10,
+  "learning_rate": 2e-05,
+  "warmup_steps": 100,
+  "train_samples": 5000,
+  "val_split": 0.2,
+  "test_split": 0.1,
+  "num_workers": 4,
+  "mixed_precision": false,
+  "output_dir": "models/rakshakai-v1/",
+  "dataset_dir": "dataset/"
+}

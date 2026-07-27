@@ -1,0 +1,81 @@
+# RakshakAI v2 — Phase D (optional): DPO preference tuning
+# Pushes model away from generic fixes toward minimal, semantically equivalent patches.
+# Pairs come from: (vulnerable_code, generic_fix_rejected) vs (vulnerable_code, minimal_fix_chosen)
+# Time: ~2 h on 1× MI300X → ~$4
+
+base_model: /workspace/rakshakai/v2/outputs/merged/rakshakai-v2-bf16
+model_type: Qwen2ForCausalLM
+tokenizer_type: Qwen2Tokenizer
+
+output_dir: /workspace/rakshakai/v2/outputs/runs/phase_d
+run_name: rakshakai-v2-phaseD-dpo
+
+load_in_4bit: true
+bnb_4bit_quant_type: nf4
+bnb_4bit_use_double_quant: true
+bnb_4bit_compute_dtype: bfloat16
+
+adapter: lora
+lora_r: 32
+lora_alpha: 64
+lora_dropout: 0.05
+lora_target_modules: all-linear
+lora_use_rslora: true
+lora_bias: none
+
+sequence_len: 2048
+sample_packing: false
+flash_attention: true
+pad_to_sequence_len: false
+micro_batch_size: 2
+gradient_accumulation_steps: 8
+eval_batch_size: 2
+
+optimizer: paged_adamw_8bit
+lr: 5.0e-6       # very low for DPO
+lr_scheduler: cosine
+warmup_ratio: 0.05
+weight_decay: 0.0
+max_grad_norm: 1.0
+bf16: true
+tf32: false
+gradient_checkpointing: true
+gradient_checkpointing_kwargs:
+  use_reentrant: false
+
+datasets:
+  - path: /workspace/rakshakai/v2/inputs/datasets/pack/phase_d_dpo
+    type: custom_jsonl
+    field: messages
+    roles:
+      user: user
+      assistant: assistant
+      system: system
+
+val_set_size: 0.02
+eval_steps: 50
+save_steps: 50
+save_total_limit: 2
+save_strategy: steps
+evaluation_strategy: steps
+load_best_model_at_end: true
+metric_for_best_model: eval_loss
+greater_is_better: false
+early_stopping_patience: 4
+
+max_steps: 800
+warmup_steps: 40
+
+logging_steps: 10
+report_to: wandb
+wandb_project: rakshakai-v2
+wandb_run_name: phaseD-qwen7b-dpo
+
+seed: 45
+special_tokens:
+  pad_token: "<|endoftext|>"
+
+# DPO settings (read by axolotl DPO plugin)
+dpo_beta: 0.1
+dpo_loss_type: sigmoid
+dpo_label_smoothing: 0.0

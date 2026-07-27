@@ -1,0 +1,60 @@
+{
+  "name": "rakshakai",
+  "version": "1.2.6",
+  "description": "RakshakAI — AI-powered security scanner & chat. Scan 20+ languages, 150+ vulnerability patterns, 65+ AI models across 9 providers, multi-agent swarm, offline regex engine.",
+  "license": "Apache-2.0",
+  "author": "RakshakAI",
+  "keywords": [
+    "security",
+    "vulnerability-detection",
+    "code-scanning",
+    "ai",
+    "chat",
+    "code-review",
+    "sast",
+    "cli",
+    "sql-injection",
+    "xss",
+    "static-analysis",
+    "cwe",
+    "offline",
+    "scanner",
+    "docker",
+    "kubernetes"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Muneerali199/RakshakAI"
+  },
+  "bugs": {
+    "url": "https://github.com/Muneerali199/RakshakAI/issues"
+  },
+  "homepage": "https://github.com/Muneerali199/RakshakAI#readme",
+  "bin": {
+    "rakshak": "./cli.js",
+    "rakshakai": "./cli.js"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "open": "^10.0.0"
+  },
+  "optionalDependencies": {
+    "@anthropic-ai/sdk": "^0.27.0",
+    "openai": "^4.0.0"
+  },
+  "scripts": {
+    "postinstall": "node scripts/postinstall.js"
+  },
+  "files": [
+    "cli.js",
+    "server.js",
+    "scanner.js",
+    "rakshak_cli.py",
+    "setup.py",
+    "public/",
+    "v2/cli/",
+    "scripts/"
+  ]
+}

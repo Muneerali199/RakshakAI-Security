@@ -1,0 +1,83 @@
+# RakshakAI 14B SFT - Modal T4 Config
+# Optimized for T4 16GB: batch 1, seq_len 1024, fp16
+
+adapter: qlora
+base_model: Qwen/Qwen2.5-Coder-14B-Instruct
+fp16: true
+bf16: false
+dataloader_num_workers: 2
+dataset_prepared_path: /tmp/prepared/sft_14b
+
+datasets:
+  - type: chat_template
+    chat_template: chatml
+    field_messages: messages
+    path: /tmp/train_87k_with_reasoning.jsonl
+    split: train
+
+eval_strategy: "no"
+
+# Training hyperparameters
+learning_rate: 1.5e-4
+num_epochs: 1
+max_steps: 750
+warmup_ratio: 0.03
+lr_scheduler: cosine
+optimizer: paged_adamw_8bit
+
+# Batch settings (T4: batch 1, seq 1024)
+micro_batch_size: 1
+gradient_accumulation_steps: 16  # Effective batch = 16
+
+# Memory optimization
+load_in_4bit: true
+bnb_4bit_compute_dtype: float16
+bnb_4bit_use_double_quant: true
+bnb_4bit_quant_type: nf4
+gradient_checkpointing: true
+flash_attention: false
+
+# Gradient control
+max_grad_norm: 1.0
+
+# LoRA settings
+lora_r: 32
+lora_alpha: 32
+lora_dropout: 0.05
+lora_target_modules:
+  - q_proj
+  - k_proj
+  - v_proj
+  - o_proj
+  - gate_proj
+  - up_proj
+  - down_proj
+lora_modules_to_save:
+  - embed_tokens
+  - lm_head
+
+# Data settings
+sequence_len: 1024
+sample_packing: true
+group_by_length: true
+train_on_inputs: false
+
+# Resume from HF checkpoint
+resume_from_checkpoint: Muneerali199/rakshak-cwe-14b-sft-step375/checkpoint-375
+
+# Checkpoint settings
+output_dir: /tmp/model/sft_14b
+save_strategy: steps
+save_steps: 100
+save_total_limit: 3
+
+# Logging
+logging_steps: 10
+report_to: none
+
+# Tokenization
+special_tokens:
+  pad_token: <|endoftext|>
+
+seed: 42
+rl_beta: null

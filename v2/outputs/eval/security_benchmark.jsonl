@@ -1,0 +1,31 @@
+{"code": "void process(char *input) { char buf[64]; strcpy(buf, input); }", "cwe": "CWE-120", "vulnerable": true}
+{"code": "int authenticate() { return 1; }", "cwe": "CWE-287", "vulnerable": true}
+{"code": "function secureCompare(a, b) { if (a.length !== b.length) return false; let result = 0; for (let i = 0; i < a.length; i++) result |= a.charCodeAt(i) ^ b.charCodeAt(i); return result === 0; }", "cwe": "", "vulnerable": false}
+{"code": "app.get('/user/:id', (req, res) => { const id = req.params.id; db.query('SELECT * FROM users WHERE id = ' + id, (err, rows) => { res.json(rows); }); });", "cwe": "CWE-89", "vulnerable": true}
+{"code": "from flask import Flask, request\napp = Flask(__name__)\n@app.route('/search')\ndef search():\n    query = request.args.get('q')\n    return f'<div>Results for {query}</div>'", "cwe": "CWE-79", "vulnerable": true}
+{"code": "eval(request.form.get('expression'))", "cwe": "CWE-94", "vulnerable": true}
+{"code": "def get_user(email):\n    conn = sqlite3.connect('users.db')\n    cursor = conn.cursor()\n    cursor.execute('SELECT * FROM users WHERE email = ?', (email,))\n    return cursor.fetchone()", "cwe": "", "vulnerable": false}
+{"code": "class KeyManager:\n    def __init__(self):\n        self.key = 'super_secret_123'\n    def get_key(self):\n        return self.key", "cwe": "CWE-798", "vulnerable": true}
+{"code": "openssl genrsa -out key.pem 2048 && openssl rsa -in key.pem -pubout -out key.pub", "cwe": "", "vulnerable": false}
+{"code": "import pickle\ndef load_data(path):\n    with open(path, 'rb') as f:\n        return pickle.load(f)", "cwe": "CWE-502", "vulnerable": true}
+{"code": "const crypto = require('crypto');\nfunction hash(password) {\n    return crypto.createHash('md5').update(password).digest('hex');\n}", "cwe": "CWE-327", "vulnerable": true}
+{"code": "import hashlib, binascii\ndef check_password(stored, provided):\n    salt = stored[:32]\n    key = hashlib.pbkdf2_hmac('sha256', provided.encode(), salt, 100000, dklen=128)\n    return binascii.hexlify(key).decode() == stored[32:]", "cwe": "", "vulnerable": false}
+{"code": "<form action=\"/transfer\" method=\"POST\">\n  <input name=\"amount\" type=\"text\">\n  <input type=\"submit\">\n</form>", "cwe": "CWE-352", "vulnerable": true}
+{"code": "app.get('/redirect', (req, res) => {\n    const url = req.query.url;\n    res.redirect(url);\n});", "cwe": "CWE-601", "vulnerable": true}
+{"code": "const fs = require('fs');\napp.get('/download', (req, res) => {\n    const file = req.query.file;\n    res.download(file);\n});", "cwe": "CWE-22", "vulnerable": true}
+{"code": "import xml.etree.ElementTree as ET\ndef parse_xml(data):\n    root = ET.fromstring(data)\n    return root.find('name').text", "cwe": "CWE-611", "vulnerable": true}
+{"code": "app.post('/upload', upload.single('file'), (req, res) => {\n    const file = req.file;\n    const ext = path.extname(file.originalname);\n    if (['.jpg','.png','.gif'].includes(ext)) {\n        fs.writeFileSync('/uploads/' + file.originalname, file.buffer);\n        res.send('OK');\n    }\n});", "cwe": "CWE-434", "vulnerable": true}
+{"code": "int check_access(char *user) {\n    char cmd[256];\n    snprintf(cmd, sizeof(cmd), \"groups %s\", user);\n    return system(cmd);\n}", "cwe": "CWE-78", "vulnerable": true}
+{"code": "int divide(int a, int b) {\n    return a / b;\n}", "cwe": "", "vulnerable": false}
+{"code": "for (int i = 0; i < n; i++) {\n    arr[i] = arr[i] * 2;\n}", "cwe": "", "vulnerable": false}
+{"code": "String xml = \"<user><name>\" + userName + \"</name></user>\";\nDocument doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new InputSource(new StringReader(xml)));", "cwe": "CWE-611", "vulnerable": true}
+{"code": "void free_and_use() {\n    char *p = malloc(64);\n    free(p);\n    strcpy(p, \"hello\");\n}", "cwe": "CWE-416", "vulnerable": true}
+{"code": "def validate_input(data):\n    if len(data) > 0 and isinstance(data, str):\n        return data.strip()\n    return ''", "cwe": "", "vulnerable": false}
+{"code": "app.get('/api/users', (req, res) => {\n    const token = req.headers.authorization;\n    const user = jwt.verify(token, secret);\n    if (user.role === 'admin') {\n        res.json(allUsers);\n    }\n    res.status(403).send('Forbidden');\n});", "cwe": "CWE-862", "vulnerable": true}
+{"code": "using System;\nusing System.Net;\nusing System.Net.Sockets;\n\nclass Server {\n    static void Main() {\n        TcpListener server = new TcpListener(IPAddress.Any, 4444);\n        server.Start();\n        while (true) {\n            TcpClient client = server.AcceptTcpClient();\n            NetworkStream stream = client.GetStream();\n            byte[] buf = new byte[1024];\n            int n = stream.Read(buf, 0, buf.Length);\n            string cmd = System.Text.Encoding.ASCII.GetString(buf, 0, n);\n            // No validation, executes anything\n            System.Diagnostics.Process.Start(\"/bin/bash\", \"-c \" + cmd);\n        }\n    }\n}", "cwe": "CWE-78", "vulnerable": true}
+{"code": "function renderTemplate(template, data) {\n    for (const key in data) {\n        template = template.replace('{{' + key + '}}', data[key]);\n    }\n    return '<html>' + template + '</html>';\n}", "cwe": "", "vulnerable": false}
+{"code": "def store_session(user_id):\n    session_token = hashlib.sha256(os.urandom(32)).hexdigest()\n    redis.setex(f\"session:{session_token}\", 3600, user_id)\n    return session_token", "cwe": "", "vulnerable": false}
+{"code": "int overflow() {\n    int arr[10];\n    for (int i = 0; i <= 10; i++) {\n        arr[i] = i * i;\n    }\n    return arr[0];\n}", "cwe": "CWE-787", "vulnerable": true}
+{"code": "def make_request(url):\n    import requests\n    resp = requests.get(url, timeout=10, verify=True)\n    return resp.text", "cwe": "", "vulnerable": false}
+{"code": "def generate_password():\n    import random\n    chars = 'abcdefghijklmnopqrstuvwxyz0123456789'\n    return ''.join(random.choice(chars) for _ in range(8))", "cwe": "CWE-338", "vulnerable": true}
+{"code": "#include <stdio.h>\nint main() {\n    printf(\"Hello, World!\");\n    return 0;\n}", "cwe": "", "vulnerable": false}

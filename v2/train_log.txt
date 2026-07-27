@@ -1,0 +1,176 @@
+Starting training...
+=== RUN 1 at 14:58:43 ===
+[2026-06-30 14:58:49,921] [INFO] [datasets.<module>:54] [PID:25] PyTorch version 2.5.1+cu124 available.
+[2026-06-30 14:58:52,340] [INFO] [axolotl.utils.config.models.input.check_eval_packing:1126] [PID:25] [RANK:0] explicitly setting `eval_sample_packing` to match `sample_packing`[39m
+[33m[2026-06-30 14:58:52,340] [WARNING] [axolotl.utils.config.models.input.check_sample_packing_wo_flash:920] [PID:25] [RANK:0] sample_packing without flash_attention or sdp_attention does not handle cross-attention.[39m
+[2026-06-30 14:58:52,649] [INFO] [axolotl.normalize_config:211] [PID:25] [RANK:0] cuda memory usage baseline: 0.000GB (+0.433GB misc)[39m
+
+     #@@ #@@      @@# @@#
+    @@  @@          @@  @@           =@@#                               @@                 #@    =@@#.
+    @@    #@@@@@@@@@    @@           #@#@=                              @@                 #@     .=@@
+      #@@@@@@@@@@@@@@@@@            =@# @#     ##=     ##    =####=+    @@      =#####+  =#@@###.   @@
+    @@@@@@@@@@/  +@@/  +@@          #@  =@=     #@=   @@   =@#+  +#@#   @@    =@#+  +#@#   #@.      @@
+    @@@@@@@@@@  ##@@  ##@@         =@#   @#      =@# @#    @@      @@   @@    @@      #@   #@       @@
+     @@@@@@@@@@@@@@@@@@@@          #@=+++#@=      =@@#     @@      @@   @@    @@      #@   #@       @@
+                                  =@#=====@@     =@# @#    @@      @@   @@    @@      #@   #@       @@
+    @@@@@@@@@@@@@@@@  @@@@        #@      #@=   #@=  +@@   #@#    =@#   @@.   =@#    =@#   #@.      @@
+                                 =@#       @#  #@=     #@   =#@@@@#=    +#@@=  +#@@@@#=    .##@@+   @@
+    @@@@  @@@@@@@@@@@@@@@@
+
+[2026-06-30 14:58:54,912] [DEBUG] [axolotl.load_tokenizer:296] [PID:25] [RANK:0] EOS: 151645 / <|im_end|>[39m
+[2026-06-30 14:58:54,912] [DEBUG] [axolotl.load_tokenizer:297] [PID:25] [RANK:0] BOS: None / None[39m
+[2026-06-30 14:58:54,912] [DEBUG] [axolotl.load_tokenizer:298] [PID:25] [RANK:0] PAD: 151643 / <|endoftext|>[39m
+[2026-06-30 14:58:54,912] [DEBUG] [axolotl.load_tokenizer:299] [PID:25] [RANK:0] UNK: None / None[39m
+[2026-06-30 14:58:54,912] [INFO] [axolotl.load_tokenizer:313] [PID:25] [RANK:0] No Chat template selected. Consider adding a chat template for easier inference.[39m
+[2026-06-30 14:58:54,913] [INFO] [axolotl.load_tokenized_prepared_datasets:205] [PID:25] [RANK:0] Loading prepared dataset from disk at /data/prepared/ace1c923200cc716ebb9c1c2b2ce0bcf...[39m
+[2026-06-30 14:58:55,359] [INFO] [axolotl.load_tokenized_prepared_datasets:207] [PID:25] [RANK:0] Prepared dataset loaded from disk...[39m
+[2026-06-30 14:58:55,399] [DEBUG] [axolotl.calculate_total_num_steps:342] [PID:25] [RANK:0] total_num_tokens: 1_756_438[39m
+[2026-06-30 14:58:55,421] [DEBUG] [axolotl.calculate_total_num_steps:360] [PID:25] [RANK:0] `total_supervised_tokens: 969_265`[39m
+[2026-06-30 14:58:59,979] [INFO] [axolotl.utils.samplers.multipack.calc_min_len:197] [PID:25] [RANK:0] gather_len_batches: [529][39m
+[2026-06-30 14:58:59,979] [DEBUG] [axolotl.calculate_total_num_steps:412] [PID:25] [RANK:0] data_loader_len: 32[39m
+[2026-06-30 14:58:59,979] [INFO] [axolotl.calc_sample_packing_eff_est:418] [PID:25] [RANK:0] sample_packing_eff_est across ranks: [0.8113867002719962][39m
+[2026-06-30 14:58:59,979] [DEBUG] [axolotl.calculate_total_num_steps:430] [PID:25] [RANK:0] sample_packing_eff_est: None[39m
+[2026-06-30 14:58:59,979] [DEBUG] [axolotl.calculate_total_num_steps:438] [PID:25] [RANK:0] total_num_steps: 32[39m
+[2026-06-30 14:59:00,398] [DEBUG] [axolotl.calculate_total_num_steps:342] [PID:25] [RANK:0] total_num_tokens: 173_627_714[39m
+[2026-06-30 14:59:02,792] [DEBUG] [axolotl.calculate_total_num_steps:360] [PID:25] [RANK:0] `total_supervised_tokens: 96_063_675`[39m
+[2026-06-30 14:59:03,307] [INFO] [axolotl.utils.samplers.multipack.calc_min_len:197] [PID:25] [RANK:0] gather_len_batches: [52113][39m
+[2026-06-30 14:59:03,307] [DEBUG] [axolotl.calculate_total_num_steps:412] [PID:25] [RANK:0] data_loader_len: 3250[39m
+[2026-06-30 14:59:03,307] [INFO] [axolotl.calc_sample_packing_eff_est:418] [PID:25] [RANK:0] sample_packing_eff_est across ranks: [0.8134243917156393][39m
+[2026-06-30 14:59:03,307] [DEBUG] [axolotl.calculate_total_num_steps:430] [PID:25] [RANK:0] sample_packing_eff_est: 0.82[39m
+[2026-06-30 14:59:03,307] [DEBUG] [axolotl.calculate_total_num_steps:438] [PID:25] [RANK:0] total_num_steps: 3250[39m
+[2026-06-30 14:59:03,332] [DEBUG] [axolotl.train.train:66] [PID:25] [RANK:0] loading tokenizer... Muneerali199/RakshakAI-SecureCoder-7B-v1-merged[39m
+[2026-06-30 14:59:03,953] [DEBUG] [axolotl.load_tokenizer:296] [PID:25] [RANK:0] EOS: 151645 / <|im_end|>[39m
+[2026-06-30 14:59:03,953] [DEBUG] [axolotl.load_tokenizer:297] [PID:25] [RANK:0] BOS: None / None[39m
+[2026-06-30 14:59:03,953] [DEBUG] [axolotl.load_tokenizer:298] [PID:25] [RANK:0] PAD: 151643 / <|endoftext|>[39m
+[2026-06-30 14:59:03,953] [DEBUG] [axolotl.load_tokenizer:299] [PID:25] [RANK:0] UNK: None / None[39m
+[2026-06-30 14:59:03,953] [INFO] [axolotl.load_tokenizer:313] [PID:25] [RANK:0] No Chat template selected. Consider adding a chat template for easier inference.[39m
+[2026-06-30 14:59:03,953] [DEBUG] [axolotl.train.train:98] [PID:25] [RANK:0] loading model and peft_config...[39m
+[2026-06-30 15:00:00,551] [INFO] [accelerate.utils.modeling.get_balanced_memory:1014] [PID:25] We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+[2026-06-30 15:00:10,588] [INFO] [axolotl.load_model:1088] [PID:25] [RANK:0] cuda memory usage after model load: 5.166GB (+0.033GB cache, +0.698GB misc)[39m
+[2026-06-30 15:00:10,629] [INFO] [axolotl.prepare_model:1008] [PID:25] [RANK:0] converting PEFT model w/ prepare_model_for_kbit_training[39m
+[2026-06-30 15:00:10,632] [INFO] [axolotl.load_model:1121] [PID:25] [RANK:0] Converting modules to torch.bfloat16[39m
+trainable params: 1,170,735,104 || all params: 8,786,351,616 || trainable%: 13.3245
+[2026-06-30 15:00:11,488] [INFO] [axolotl.load_model:1182] [PID:25] [RANK:0] cuda memory usage after adapters: 7.497GB (+1.878GB cache, +0.698GB misc)[39m
+[2026-06-30 15:00:12,177] [WARNING] [accelerate.utils.other.check_os_kernel:331] [PID:25] Detected kernel version 4.19.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+[2026-06-30 15:00:12,180] [INFO] [axolotl.train.train:141] [PID:25] [RANK:0] Pre-saving adapter config to /data/model_sft[39m
+[2026-06-30 15:00:12,394] [INFO] [axolotl.train.train:178] [PID:25] [RANK:0] Starting trainer...[39m
+[2026-06-30 15:00:12,394] [INFO] [axolotl.train.train:180] [PID:25] [RANK:0] hang tight... sorting dataset for group_by_length[39m
+[2026-06-30 15:00:13,160] [INFO] [axolotl.utils.samplers.multipack.calc_min_len:197] [PID:25] [RANK:0] gather_len_batches: [52102][39m
+=== RUN at 15:06:18 ===
+[2026-06-30 15:06:24,921] [INFO] [datasets.<module>:54] [PID:25] PyTorch version 2.5.1+cu124 available.
+[2026-06-30 15:06:27,257] [INFO] [axolotl.utils.config.models.input.check_eval_packing:1126] [PID:25] [RANK:0] explicitly setting `eval_sample_packing` to match `sample_packing`[39m
+[33m[2026-06-30 15:06:27,257] [WARNING] [axolotl.utils.config.models.input.check_sample_packing_wo_flash:920] [PID:25] [RANK:0] sample_packing without flash_attention or sdp_attention does not handle cross-attention.[39m
+[2026-06-30 15:06:27,488] [INFO] [axolotl.normalize_config:211] [PID:25] [RANK:0] cuda memory usage baseline: 0.000GB (+0.433GB misc)[39m
+
+     #@@ #@@      @@# @@#
+    @@  @@          @@  @@           =@@#                               @@                 #@    =@@#.
+    @@    #@@@@@@@@@    @@           #@#@=                              @@                 #@     .=@@
+      #@@@@@@@@@@@@@@@@@            =@# @#     ##=     ##    =####=+    @@      =#####+  =#@@###.   @@
+    @@@@@@@@@@/  +@@/  +@@          #@  =@=     #@=   @@   =@#+  +#@#   @@    =@#+  +#@#   #@.      @@
+    @@@@@@@@@@  ##@@  ##@@         =@#   @#      =@# @#    @@      @@   @@    @@      #@   #@       @@
+     @@@@@@@@@@@@@@@@@@@@          #@=+++#@=      =@@#     @@      @@   @@    @@      #@   #@       @@
+                                  =@#=====@@     =@# @#    @@      @@   @@    @@      #@   #@       @@
+    @@@@@@@@@@@@@@@@  @@@@        #@      #@=   #@=  +@@   #@#    =@#   @@.   =@#    =@#   #@.      @@
+                                 =@#       @#  #@=     #@   =#@@@@#=    +#@@=  +#@@@@#=    .##@@+   @@
+    @@@@  @@@@@@@@@@@@@@@@
+
+[2026-06-30 15:06:29,187] [DEBUG] [axolotl.load_tokenizer:296] [PID:25] [RANK:0] EOS: 151645 / <|im_end|>[39m
+[2026-06-30 15:06:29,187] [DEBUG] [axolotl.load_tokenizer:297] [PID:25] [RANK:0] BOS: None / None[39m
+[2026-06-30 15:06:29,187] [DEBUG] [axolotl.load_tokenizer:298] [PID:25] [RANK:0] PAD: 151643 / <|endoftext|>[39m
+[2026-06-30 15:06:29,187] [DEBUG] [axolotl.load_tokenizer:299] [PID:25] [RANK:0] UNK: None / None[39m
+[2026-06-30 15:06:29,187] [INFO] [axolotl.load_tokenizer:313] [PID:25] [RANK:0] No Chat template selected. Consider adding a chat template for easier inference.[39m
+[2026-06-30 15:06:29,188] [INFO] [axolotl.load_tokenized_prepared_datasets:205] [PID:25] [RANK:0] Loading prepared dataset from disk at /data/prepared/ace1c923200cc716ebb9c1c2b2ce0bcf...[39m
+[2026-06-30 15:06:29,524] [INFO] [axolotl.load_tokenized_prepared_datasets:207] [PID:25] [RANK:0] Prepared dataset loaded from disk...[39m
+[2026-06-30 15:06:29,564] [DEBUG] [axolotl.calculate_total_num_steps:342] [PID:25] [RANK:0] total_num_tokens: 1_756_438[39m
+[2026-06-30 15:06:29,586] [DEBUG] [axolotl.calculate_total_num_steps:360] [PID:25] [RANK:0] `total_supervised_tokens: 969_265`[39m
+[2026-06-30 15:06:34,040] [INFO] [axolotl.utils.samplers.multipack.calc_min_len:197] [PID:25] [RANK:0] gather_len_batches: [525][39m
+[2026-06-30 15:06:34,041] [DEBUG] [axolotl.calculate_total_num_steps:412] [PID:25] [RANK:0] data_loader_len: 32[39m
+[2026-06-30 15:06:34,041] [INFO] [axolotl.calc_sample_packing_eff_est:418] [PID:25] [RANK:0] sample_packing_eff_est across ranks: [0.8167959449404761][39m
+[2026-06-30 15:06:34,041] [DEBUG] [axolotl.calculate_total_num_steps:430] [PID:25] [RANK:0] sample_packing_eff_est: None[39m
+[2026-06-30 15:06:34,041] [DEBUG] [axolotl.calculate_total_num_steps:438] [PID:25] [RANK:0] total_num_steps: 32[39m
+[2026-06-30 15:06:34,448] [DEBUG] [axolotl.calculate_total_num_steps:342] [PID:25] [RANK:0] total_num_tokens: 173_627_714[39m
+[2026-06-30 15:06:36,850] [DEBUG] [axolotl.calculate_total_num_steps:360] [PID:25] [RANK:0] `total_supervised_tokens: 96_063_675`[39m
+[2026-06-30 15:06:37,371] [INFO] [axolotl.utils.samplers.multipack.calc_min_len:197] [PID:25] [RANK:0] gather_len_batches: [52089][39m
+[2026-06-30 15:06:37,371] [DEBUG] [axolotl.calculate_total_num_steps:412] [PID:25] [RANK:0] data_loader_len: 3249[39m
+[2026-06-30 15:06:37,371] [INFO] [axolotl.calc_sample_packing_eff_est:418] [PID:25] [RANK:0] sample_packing_eff_est across ranks: [0.8137991804962947][39m
+[2026-06-30 15:06:37,371] [DEBUG] [axolotl.calculate_total_num_steps:430] [PID:25] [RANK:0] sample_packing_eff_est: 0.82[39m
+[2026-06-30 15:06:37,371] [DEBUG] [axolotl.calculate_total_num_steps:438] [PID:25] [RANK:0] total_num_steps: 3249[39m
+[2026-06-30 15:06:37,395] [DEBUG] [axolotl.train.train:66] [PID:25] [RANK:0] loading tokenizer... Muneerali199/RakshakAI-SecureCoder-7B-v1-merged[39m
+[2026-06-30 15:06:38,027] [DEBUG] [axolotl.load_tokenizer:296] [PID:25] [RANK:0] EOS: 151645 / <|im_end|>[39m
+[2026-06-30 15:06:38,028] [DEBUG] [axolotl.load_tokenizer:297] [PID:25] [RANK:0] BOS: None / None[39m
+[2026-06-30 15:06:38,028] [DEBUG] [axolotl.load_tokenizer:298] [PID:25] [RANK:0] PAD: 151643 / <|endoftext|>[39m
+[2026-06-30 15:06:38,028] [DEBUG] [axolotl.load_tokenizer:299] [PID:25] [RANK:0] UNK: None / None[39m
+[2026-06-30 15:06:38,028] [INFO] [axolotl.load_tokenizer:313] [PID:25] [RANK:0] No Chat template selected. Consider adding a chat template for easier inference.[39m
+[2026-06-30 15:06:38,028] [DEBUG] [axolotl.train.train:98] [PID:25] [RANK:0] loading model and peft_config...[39m
+[2026-06-30 15:07:36,310] [INFO] [accelerate.utils.modeling.get_balanced_memory:1014] [PID:25] We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+[2026-06-30 15:07:45,298] [INFO] [axolotl.load_model:1088] [PID:25] [RANK:0] cuda memory usage after model load: 5.166GB (+0.033GB cache, +0.698GB misc)[39m
+[2026-06-30 15:07:45,331] [INFO] [axolotl.prepare_model:1008] [PID:25] [RANK:0] converting PEFT model w/ prepare_model_for_kbit_training[39m
+[2026-06-30 15:07:45,334] [INFO] [axolotl.load_model:1121] [PID:25] [RANK:0] Converting modules to torch.bfloat16[39m
+trainable params: 1,170,735,104 || all params: 8,786,351,616 || trainable%: 13.3245
+[2026-06-30 15:07:46,120] [INFO] [axolotl.load_model:1182] [PID:25] [RANK:0] cuda memory usage after adapters: 7.497GB (+1.878GB cache, +0.698GB misc)[39m
+[2026-06-30 15:07:46,758] [WARNING] [accelerate.utils.other.check_os_kernel:331] [PID:25] Detected kernel version 4.19.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+[2026-06-30 15:07:46,760] [INFO] [axolotl.train.train:141] [PID:25] [RANK:0] Pre-saving adapter config to /data/model_sft[39m
+[2026-06-30 15:07:46,932] [INFO] [axolotl.train.train:178] [PID:25] [RANK:0] Starting trainer...[39m
+[2026-06-30 15:07:46,933] [INFO] [axolotl.train.train:180] [PID:25] [RANK:0] hang tight... sorting dataset for group_by_length[39m
+[2026-06-30 15:07:47,656] [INFO] [axolotl.utils.samplers.multipack.calc_min_len:197] [PID:25] [RANK:0] gather_len_batches: [52102][39m
+=== RUN at 15:14:24 ===
+[2026-06-30 15:14:35,383] [INFO] [datasets.<module>:54] [PID:25] PyTorch version 2.5.1+cu124 available.
+[2026-06-30 15:14:38,702] [INFO] [axolotl.utils.config.models.input.check_eval_packing:1126] [PID:25] [RANK:0] explicitly setting `eval_sample_packing` to match `sample_packing`[39m
+[33m[2026-06-30 15:14:38,702] [WARNING] [axolotl.utils.config.models.input.check_sample_packing_wo_flash:920] [PID:25] [RANK:0] sample_packing without flash_attention or sdp_attention does not handle cross-attention.[39m
+[2026-06-30 15:14:39,398] [INFO] [axolotl.normalize_config:211] [PID:25] [RANK:0] cuda memory usage baseline: 0.000GB (+0.463GB misc)[39m
+
+     #@@ #@@      @@# @@#
+    @@  @@          @@  @@           =@@#                               @@                 #@    =@@#.
+    @@    #@@@@@@@@@    @@           #@#@=                              @@                 #@     .=@@
+      #@@@@@@@@@@@@@@@@@            =@# @#     ##=     ##    =####=+    @@      =#####+  =#@@###.   @@
+    @@@@@@@@@@/  +@@/  +@@          #@  =@=     #@=   @@   =@#+  +#@#   @@    =@#+  +#@#   #@.      @@
+    @@@@@@@@@@  ##@@  ##@@         =@#   @#      =@# @#    @@      @@   @@    @@      #@   #@       @@
+     @@@@@@@@@@@@@@@@@@@@          #@=+++#@=      =@@#     @@      @@   @@    @@      #@   #@       @@
+                                  =@#=====@@     =@# @#    @@      @@   @@    @@      #@   #@       @@
+    @@@@@@@@@@@@@@@@  @@@@        #@      #@=   #@=  +@@   #@#    =@#   @@.   =@#    =@#   #@.      @@
+                                 =@#       @#  #@=     #@   =#@@@@#=    +#@@=  +#@@@@#=    .##@@+   @@
+    @@@@  @@@@@@@@@@@@@@@@
+
+[2026-06-30 15:14:44,748] [DEBUG] [axolotl.load_tokenizer:296] [PID:25] [RANK:0] EOS: 151645 / <|im_end|>[39m
+[2026-06-30 15:14:44,748] [DEBUG] [axolotl.load_tokenizer:297] [PID:25] [RANK:0] BOS: None / None[39m
+[2026-06-30 15:14:44,749] [DEBUG] [axolotl.load_tokenizer:298] [PID:25] [RANK:0] PAD: 151643 / <|endoftext|>[39m
+[2026-06-30 15:14:44,749] [DEBUG] [axolotl.load_tokenizer:299] [PID:25] [RANK:0] UNK: None / None[39m
+[2026-06-30 15:14:44,749] [INFO] [axolotl.load_tokenizer:313] [PID:25] [RANK:0] No Chat template selected. Consider adding a chat template for easier inference.[39m
+[2026-06-30 15:14:44,750] [INFO] [axolotl.load_tokenized_prepared_datasets:205] [PID:25] [RANK:0] Loading prepared dataset from disk at /data/prepared/ace1c923200cc716ebb9c1c2b2ce0bcf...[39m
+[2026-06-30 15:14:45,471] [INFO] [axolotl.load_tokenized_prepared_datasets:207] [PID:25] [RANK:0] Prepared dataset loaded from disk...[39m
+[2026-06-30 15:14:45,534] [DEBUG] [axolotl.calculate_total_num_steps:342] [PID:25] [RANK:0] total_num_tokens: 1_756_438[39m
+[2026-06-30 15:14:45,568] [DEBUG] [axolotl.calculate_total_num_steps:360] [PID:25] [RANK:0] `total_supervised_tokens: 969_265`[39m
+[2026-06-30 15:14:52,631] [INFO] [axolotl.utils.samplers.multipack.calc_min_len:197] [PID:25] [RANK:0] gather_len_batches: [529][39m
+[2026-06-30 15:14:52,631] [DEBUG] [axolotl.calculate_total_num_steps:412] [PID:25] [RANK:0] data_loader_len: 32[39m
+[2026-06-30 15:14:52,631] [INFO] [axolotl.calc_sample_packing_eff_est:418] [PID:25] [RANK:0] sample_packing_eff_est across ranks: [0.8113867002719962][39m
+[2026-06-30 15:14:52,631] [DEBUG] [axolotl.calculate_total_num_steps:430] [PID:25] [RANK:0] sample_packing_eff_est: None[39m
+[2026-06-30 15:14:52,632] [DEBUG] [axolotl.calculate_total_num_steps:438] [PID:25] [RANK:0] total_num_steps: 32[39m
+[2026-06-30 15:14:53,277] [DEBUG] [axolotl.calculate_total_num_steps:342] [PID:25] [RANK:0] total_num_tokens: 173_627_714[39m
+[2026-06-30 15:14:56,804] [DEBUG] [axolotl.calculate_total_num_steps:360] [PID:25] [RANK:0] `total_supervised_tokens: 96_063_675`[39m
+[2026-06-30 15:14:57,515] [INFO] [axolotl.utils.samplers.multipack.calc_min_len:197] [PID:25] [RANK:0] gather_len_batches: [52139][39m
+[2026-06-30 15:14:57,516] [DEBUG] [axolotl.calculate_total_num_steps:412] [PID:25] [RANK:0] data_loader_len: 3252[39m
+[2026-06-30 15:14:57,516] [INFO] [axolotl.calc_sample_packing_eff_est:418] [PID:25] [RANK:0] sample_packing_eff_est across ranks: [0.8130109632574705][39m
+[2026-06-30 15:14:57,516] [DEBUG] [axolotl.calculate_total_num_steps:430] [PID:25] [RANK:0] sample_packing_eff_est: 0.82[39m
+[2026-06-30 15:14:57,516] [DEBUG] [axolotl.calculate_total_num_steps:438] [PID:25] [RANK:0] total_num_steps: 3252[39m
+[2026-06-30 15:14:57,560] [DEBUG] [axolotl.train.train:66] [PID:25] [RANK:0] loading tokenizer... Muneerali199/RakshakAI-SecureCoder-7B-v1-merged[39m
+[2026-06-30 15:14:58,506] [DEBUG] [axolotl.load_tokenizer:296] [PID:25] [RANK:0] EOS: 151645 / <|im_end|>[39m
+[2026-06-30 15:14:58,506] [DEBUG] [axolotl.load_tokenizer:297] [PID:25] [RANK:0] BOS: None / None[39m
+[2026-06-30 15:14:58,506] [DEBUG] [axolotl.load_tokenizer:298] [PID:25] [RANK:0] PAD: 151643 / <|endoftext|>[39m
+[2026-06-30 15:14:58,507] [DEBUG] [axolotl.load_tokenizer:299] [PID:25] [RANK:0] UNK: None / None[39m
+[2026-06-30 15:14:58,507] [INFO] [axolotl.load_tokenizer:313] [PID:25] [RANK:0] No Chat template selected. Consider adding a chat template for easier inference.[39m
+[2026-06-30 15:14:58,507] [DEBUG] [axolotl.train.train:98] [PID:25] [RANK:0] loading model and peft_config...[39m
+[2026-06-30 15:16:23,369] [INFO] [accelerate.utils.modeling.get_balanced_memory:1014] [PID:25] We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+[2026-06-30 15:16:48,202] [INFO] [axolotl.load_model:1088] [PID:25] [RANK:0] cuda memory usage after model load: 5.166GB (+0.033GB cache, +0.679GB misc)[39m
+[2026-06-30 15:16:48,258] [INFO] [axolotl.prepare_model:1008] [PID:25] [RANK:0] converting PEFT model w/ prepare_model_for_kbit_training[39m
+[2026-06-30 15:16:48,263] [INFO] [axolotl.load_model:1121] [PID:25] [RANK:0] Converting modules to torch.bfloat16[39m
+trainable params: 1,170,735,104 || all params: 8,786,351,616 || trainable%: 13.3245
+[2026-06-30 15:16:49,371] [INFO] [axolotl.load_model:1182] [PID:25] [RANK:0] cuda memory usage after adapters: 7.497GB (+1.878GB cache, +0.679GB misc)[39m
+[2026-06-30 15:16:50,170] [WARNING] [accelerate.utils.other.check_os_kernel:331] [PID:25] Detected kernel version 4.19.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+[2026-06-30 15:16:50,173] [INFO] [axolotl.train.train:141] [PID:25] [RANK:0] Pre-saving adapter config to /data/model_sft[39m
+[2026-06-30 15:16:50,401] [INFO] [axolotl.train.train:178] [PID:25] [RANK:0] Starting trainer...[39m
+[2026-06-30 15:16:50,401] [INFO] [axolotl.train.train:180] [PID:25] [RANK:0] hang tight... sorting dataset for group_by_length[39m
+[2026-06-30 15:16:51,408] [INFO] [axolotl.utils.samplers.multipack.calc_min_len:197] [PID:25] [RANK:0] gather_len_batches: [52102][39m
+[2026-06-30 15:20:20,016] [INFO] [axolotl.callbacks.on_step_end:130] [PID:25] [RANK:0] cuda memory usage while training: 9.730GB (+11.610GB cache, +0.704GB misc)[39m
+{'loss': 0.393, 'grad_norm': 1.5307148694992065, 'learning_rate': 1.0309278350515464e-05, 'epoch': 0.0}
+{'loss': 0.3726, 'grad_norm': 0.8364500999450684, 'learning_rate': 2.0618556701030927e-05, 'epoch': 0.01}
+{'loss': 0.2312, 'grad_norm': 0.4616507291793823, 'learning_rate': 3.0927835051546395e-05, 'epoch': 0.01}

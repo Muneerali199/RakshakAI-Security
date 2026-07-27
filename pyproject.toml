@@ -1,0 +1,62 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "rakshakai"
+version = "3.0.0"
+description = "RakshakAI v3 — Multi-model security CLI with fine-tuned 7B vulnerability detection"
+readme = "README.md"
+license = {text = "Apache-2.0"}
+requires-python = ">=3.9"
+authors = [
+    {name = "RakshakAI", email = "rakshakai@users.noreply.github.com"},
+]
+keywords = [
+    "security", "vulnerability-detection", "code-scanning",
+    "cwe", "sast", "cli", "llm", "code-review",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Information Technology",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3",
+    "Topic :: Security",
+    "Topic :: Software Development :: Quality Assurance",
+]
+
+dependencies = [
+    "openai>=1.0.0",
+    "rich>=13.0.0",
+    "pygments>=2.0.0",
+    "watchdog>=4.0.0",
+    "GitPython>=3.1.0",
+    "httpx>=0.25.0",
+    "requests>=2.31.0",
+]
+
+[project.optional-dependencies]
+mcp = ["mcp>=1.0.0"]
+training = [
+    "transformers>=4.43",
+    "peft>=0.11",
+    "accelerate>=0.33",
+    "trl>=0.9.6",
+    "datasets>=2.20",
+    "bitsandbytes>=0.43.3",
+    "huggingface-hub>=0.27.0",
+]
+
+[project.scripts]
+rakshak = "rakshak_cli:main"
+rakshakai = "v2.cli.runner:main"
+rkscan-mcp = "v2.cli.mcp_server:main"
+rkscan-ci = "v2.cli.ci:main"
+
+[project.urls]
+Homepage = "https://github.com/Muneerali199/RakshakAI"
+Source = "https://github.com/Muneerali199/RakshakAI"
+
+[tool.setuptools.packages.find]
+include = ["rakshakai*", "v2*"]

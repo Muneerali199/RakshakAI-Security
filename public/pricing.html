@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RakshakAI — Pricing</title>
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --bg2: #12121a;
+    --bg3: #1a1a2e;
+    --fg: #e0e0e0;
+    --fg2: #888;
+    --accent: #00ccff;
+    --accent2: #ffcc00;
+    --green: #00ff88;
+    --red: #ff4444;
+    --orange: #ff8800;
+    --border: #2a2a3e;
+    --radius: 8px;
+    --gradient: linear-gradient(135deg, var(--accent), var(--pink, #ff00ff));
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .nav {
+    width: 100%;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 24px;
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border);
+    flex-wrap: wrap; gap: 8px;
+  }
+  .nav-links { display: flex; gap: 16px; align-items: center; }
+  .nav a { color: var(--accent); text-decoration: none; font-weight: 600; font-size: 14px; }
+  .nav a:hover { text-decoration: underline; }
+  .nav .nav-secondary { color: var(--fg2); font-weight: 400; }
+  .container { max-width: 1000px; margin: 60px 20px; text-align: center; }
+  h1 {
+    font-size: 36px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    margin-bottom: 12px;
+  }
+  .subtitle { color: var(--fg2); font-size: 18px; margin-bottom: 48px; }
+  .plans { display: flex; gap: 24px; justify-content: center; flex-wrap: wrap; }
+  .plan {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 32px;
+    width: 300px;
+    text-align: left;
+    transition: border-color 0.2s;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+  .plan:hover { border-color: var(--accent); }
+  .plan.pro {
+    border-color: var(--accent);
+    background: linear-gradient(135deg, var(--bg2) 0%, #0a1a2e 100%);
+  }
+  .plan.pro::before {
+    content: "POPULAR";
+    position: absolute;
+    top: -12px; right: 24px;
+    background: var(--accent); color: #000;
+    padding: 4px 12px; border-radius: 20px;
+    font-size: 11px; font-weight: 700; letter-spacing: 1px;
+  }
+  .plan.enterprise { border-color: var(--accent2); }
+  .plan-name { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+  .plan-price { font-size: 42px; font-weight: 700; margin-bottom: 4px; }
+  .plan-price span { font-size: 16px; color: var(--fg2); font-weight: 400; }
+  .plan-desc { color: var(--fg2); font-size: 14px; margin-bottom: 24px; flex: 1; }
+  .plan-cta {
+    display: block; width: 100%; padding: 12px;
+    border-radius: var(--radius); border: none;
+    font-size: 16px; font-weight: 600; cursor: pointer;
+    transition: opacity 0.2s; text-align: center; text-decoration: none;
+    margin-bottom: 24px;
+  }
+  .plan-cta:hover { opacity: 0.9; }
+  .plan-cta.free { background: var(--bg3); color: var(--fg); border: 1px solid var(--border); }
+  .plan-cta.pro { background: var(--accent); color: #000; }
+  .plan-cta.enterprise { background: var(--accent2); color: #000; }
+  .features { list-style: none; }
+  .features li { padding: 6px 0; font-size: 13px; display: flex; align-items: center; gap: 8px; }
+  .features li .check { color: var(--green); font-weight: bold; }
+  .features li .cross { color: var(--fg2); }
+  .features li .dim { color: var(--fg2); }
+  .features li .pro-badge { font-size: 9px; background: var(--accent); color: #000; padding: 1px 6px; border-radius: 4px; font-weight: 700; margin-left: 4px; }
+
+  .faq { margin-top: 60px; text-align: left; max-width: 700px; width: 100%; }
+  .faq h3 { margin-bottom: 20px; font-size: 20px; }
+  .faq-item { padding: 16px 0; border-bottom: 1px solid var(--border); }
+  .faq-q { font-weight: 600; margin-bottom: 6px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+  .faq-q:hover { color: var(--accent); }
+  .faq-q .arrow { transition: transform 0.2s; }
+  .faq-q.open .arrow { transform: rotate(180deg); }
+  .faq-a { color: var(--fg2); font-size: 14px; line-height: 1.5; display: none; }
+  .faq-a.open { display: block; }
+
+  .comparison { margin-top: 60px; width: 100%; }
+  .comparison h3 { margin-bottom: 20px; font-size: 20px; }
+  .comparison table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .comparison th { text-align: left; padding: 10px 12px; color: var(--accent); border-bottom: 1px solid var(--border); font-weight: 600; }
+  .comparison td { padding: 10px 12px; border-bottom: 1px solid rgba(255,255,255,0.04); }
+  .comparison tr:hover td { background: rgba(0,255,255,0.03); }
+
+  .models-list { margin-top: 60px; width: 100%; text-align: left; }
+  .models-list h3 { margin-bottom: 20px; font-size: 20px; text-align: center; }
+  .model-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 8px; }
+  .model-item { background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; padding: 12px; text-align: left; }
+  .model-item .m-name { font-size: 13px; font-weight: 600; }
+  .model-item .m-provider { font-size: 11px; color: var(--fg2); }
+  .model-item .m-plan { font-size: 10px; padding: 2px 6px; border-radius: 4px; display: inline-block; margin-top: 4px; }
+  .model-item .m-plan.free { background: rgba(0,255,136,0.1); color: var(--green); }
+  .model-item .m-plan.pro { background: rgba(0,204,255,0.1); color: var(--accent); }
+
+  .footer { margin-top: 60px; padding: 20px; color: var(--fg2); font-size: 13px; width: 100%; text-align: center; border-top: 1px solid var(--border); }
+  .footer a { color: var(--accent); text-decoration: none; }
+
+  @media (max-width: 700px) {
+    .plan { width: 100%; max-width: 380px; }
+    .container { margin: 30px 16px; }
+  }
+</style>
+</head>
+<body>
+  <div class="nav">
+    <div>
+      <a href="/">▲ RakshakAI</a>
+      <span style="color:var(--fg2);font-size:13px;margin-left:8px;">Security Code Analysis</span>
+    </div>
+    <div class="nav-links">
+      <a href="/pricing" style="color:var(--accent);font-weight:700;">Pricing</a>
+      <a href="/" class="nav-secondary">Chat</a>
+      <a href="http://localhost:8080/benchmark" class="nav-secondary">Benchmarks</a>
+      <a href="http://localhost:8080/training" class="nav-secondary">Training</a>
+      <a href="http://localhost:8080/login" class="nav-secondary">Login</a>
+      <a href="http://localhost:8080/register" style="color:var(--accent2);">Sign Up</a>
+    </div>
+  </div>
+
+  <div class="container">
+    <h1>Simple, transparent pricing</h1>
+    <p class="subtitle">Start free. Upgrade when you need more power. Enterprise for teams.</p>
+
+    <div class="plans">
+      <!-- Free Plan -->
+      <div class="plan">
+        <div class="plan-name">Free</div>
+        <div class="plan-price">$0 <span></span></div>
+        <div class="plan-desc">For individual developers getting started</div>
+        <a href="http://localhost:8080/register" class="plan-cta free">Get Started Free</a>
+        <ul class="features">
+          <li><span class="check">✓</span> 5 AI scans / day</li>
+          <li><span class="check">✓</span> 10 regex scans / day</li>
+          <li><span class="check">✓</span> Llama 3.1 8B model</li>
+          <li><span class="check">✓</span> CLI + Web UI</li>
+          <li><span class="check">✓</span> 3 bonus credits on signup</li>
+          <li><span class="cross">✗</span> <span class="dim">Session sharing</span></li>
+          <li><span class="cross">✗</span> <span class="dim">Priority support</span></li>
+          <li><span class="cross">✗</span> <span class="dim">Agentic tools</span></li>
+        </ul>
+      </div>
+
+      <!-- Pro Plan -->
+      <div class="plan pro">
+        <div class="plan-name">Pro</div>
+        <div class="plan-price">$10 <span>/month</span></div>
+        <div class="plan-desc">For teams and serious security engineers</div>
+        <a href="http://localhost:8080/register" class="plan-cta pro">Upgrade to Pro</a>
+        <ul class="features">
+          <li><span class="check">✓</span> Unlimited AI scans</li>
+          <li><span class="check">✓</span> Unlimited regex scans</li>
+          <li><span class="check">✓</span> All models: Llama 70B, RakshakAI 14B, GPT-4o Mini</li>
+          <li><span class="check">✓</span> CLI + Web UI</li>
+          <li><span class="check">✓</span> 67 models across 12 providers</li>
+          <li><span class="check">✓</span> Session sharing</li>
+          <li><span class="check">✓</span> Priority email support</li>
+          <li><span class="check">✓</span> Agentic tools (Read, Edit, Bash, Glob, Grep)</li>
+          <li><span class="check">✓</span> Git workflow (commit, review, PR)</li>
+          <li><span class="check">✓</span> Context compaction (Claude Code-style /compact)</li>
+        </ul>
+      </div>
+
+      <!-- Enterprise Plan -->
+      <div class="plan enterprise">
+        <div class="plan-name">Enterprise</div>
+        <div class="plan-price">Custom <span></span></div>
+        <div class="plan-desc">For organizations needing dedicated infrastructure</div>
+        <a href="mailto:rakshak@example.com?subject=Enterprise%20Plan" class="plan-cta enterprise">Contact Us</a>
+        <ul class="features">
+          <li><span class="check">✓</span> Everything in Pro</li>
+          <li><span class="check">✓</span> Self-hosted deployment</li>
+          <li><span class="check">✓</span> Dedicated Modal GPU endpoint</li>
+          <li><span class="check">✓</span> Custom model fine-tuning</li>
+          <li><span class="check">✓</span> Private Ollama integration</li>
+          <li><span class="check">✓</span> SAML / SSO authentication</li>
+          <li><span class="check">✓</span> Audit logging &amp; compliance</li>
+          <li><span class="check">✓</span> SLA with 99.9% uptime</li>
+          <li><span class="check">✓</span> Dedicated support engineer</li>
+          <li><span class="check">✓</span> On-premise GPU training pipeline</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Feature Comparison -->
+    <div class="comparison">
+      <h3>Detailed Feature Comparison</h3>
+      <div style="overflow-x:auto;">
+      <table>
+        <tr><th style="width:200px;">Feature</th><th style="text-align:center;">Free</th><th style="text-align:center;">Pro</th><th style="text-align:center;">Enterprise</th></tr>
+        <tr><td>AI-powered security scans</td><td style="text-align:center;">5/day</td><td style="text-align:center;">∞</td><td style="text-align:center;">∞</td></tr>
+        <tr><td>Regex pattern scans</td><td style="text-align:center;">10/day</td><td style="text-align:center;">∞</td><td style="text-align:center;">∞</td></tr>
+        <tr><td>Models available</td><td style="text-align:center;">1 (Llama 8B)</td><td style="text-align:center;">67 (all)</td><td style="text-align:center;">67 + custom</td></tr>
+        <tr><td>Model providers</td><td style="text-align:center;">Groq only</td><td style="text-align:center;">12 providers</td><td style="text-align:center;">12 + private</td></tr>
+        <tr><td>CLI tool</td><td style="text-align:center;">✓</td><td style="text-align:center;">✓</td><td style="text-align:center;">✓</td></tr>
+        <tr><td>Web chat UI</td><td style="text-align:center;">✓</td><td style="text-align:center;">✓</td><td style="text-align:center;">✓</td></tr>
+        <tr><td>Auth &amp; dashboard</td><td style="text-align:center;">✓</td><td style="text-align:center;">✓</td><td style="text-align:center;">✓</td></tr>
+        <tr><td>Session sharing</td><td style="text-align:center;">✗</td><td style="text-align:center;">✓</td><td style="text-align:center;">✓</td></tr>
+        <tr><td>Git integration (commit, PR)</td><td style="text-align:center;">✗</td><td style="text-align:center;">✓</td><td style="text-align:center;">✓</td></tr>
+        <tr><td>Agentic tools (Read, Edit, Bash)</td><td style="text-align:center;">✗</td><td style="text-align:center;">✓</td><td style="text-align:center;">✓</td></tr>
+        <tr><td>Context compaction</td><td style="text-align:center;">✗</td><td style="text-align:center;">✓</td><td style="text-align:center;">✓</td></tr>
+        <tr><td>File watching</td><td style="text-align:center;">✓</td><td style="text-align:center;">✓</td><td style="text-align:center;">✓</td></tr>
+        <tr><td>Pre-commit hooks</td><td style="text-align:center;">✓</td><td style="text-align:center;">✓</td><td style="text-align:center;">✓</td></tr>
+        <tr><td>Priority support</td><td style="text-align:center;">✗</td><td style="text-align:center;">Email</td><td style="text-align:center;">Dedicated engineer</td></tr>
+        <tr><td>Self-hosted deployment</td><td style="text-align:center;">✗</td><td style="text-align:center;">✗</td><td style="text-align:center;">✓</td></tr>
+        <tr><td>Custom model fine-tuning</td><td style="text-align:center;">✗</td><td style="text-align:center;">✗</td><td style="text-align:center;">✓</td></tr>
+        <tr><td>SAML / SSO</td><td style="text-align:center;">✗</td><td style="text-align:center;">✗</td><td style="text-align:center;">✓</td></tr>
+        <tr><td>Audit logging</td><td style="text-align:center;">✗</td><td style="text-align:center;">✗</td><td style="text-align:center;">✓</td></tr>
+        <tr><td>99.9% SLA</td><td style="text-align:center;">✗</td><td style="text-align:center;">✗</td><td style="text-align:center;">✓</td></tr>
+        <tr><td>On-premise GPU training</td><td style="text-align:center;">✗</td><td style="text-align:center;">✗</td><td style="text-align:center;">✓</td></tr>
+      </table>
+      </div>
+    </div>
+
+    <!-- Models by Plan -->
+    <div class="models-list">
+      <h3>Models Available by Plan</h3>
+      <div class="model-grid">
+        <div class="model-item">
+          <div class="m-name">Llama 3.1 8B (Groq)</div>
+          <div class="m-provider">Groq — groq-llama-8b</div>
+          <span class="m-plan free">Free</span> <span class="m-plan pro">Pro</span>
+        </div>
+        <div class="model-item">
+          <div class="m-name">Llama 3.3 70B (Groq)</div>
+          <div class="m-provider">Groq — groq-llama-70b</div>
+          <span class="m-plan pro">Pro</span>
+        </div>
+        <div class="model-item">
+          <div class="m-name">RakshakAI 14B (Modal)</div>
+          <div class="m-provider">Modal — rakshak-14b</div>
+          <span class="m-plan pro">Pro</span>
+        </div>
+        <div class="model-item">
+          <div class="m-name">RakshakAI v3 (legacy)</div>
+          <div class="m-provider">Modal — rakshak</div>
+          <span class="m-plan pro">Pro</span>
+        </div>
+        <div class="model-item">
+          <div class="m-name">GPT-4o Mini</div>
+          <div class="m-provider">OpenAI — gpt-4o-mini</div>
+          <span class="m-plan pro">Pro</span>
+        </div>
+        <div class="model-item">
+          <div class="m-name">GPT-4o</div>
+          <div class="m-provider">OpenAI — gpt-4o</div>
+          <span class="m-plan pro">Pro</span>
+        </div>
+        <div class="model-item">
+          <div class="m-name">Claude Sonnet</div>
+          <div class="m-provider">Anthropic — claude-sonnet</div>
+          <span class="m-plan pro">Pro</span>
+        </div>
+        <div class="model-item">
+          <div class="m-name">DeepSeek V3 / V4 Pro</div>
+          <div class="m-provider">NVIDIA / DeepSeek — deepseek</div>
+          <span class="m-plan pro">Pro</span>
+        </div>
+        <div class="model-item">
+          <div class="m-name">Gemini 2.0 Flash</div>
+          <div class="m-provider">Google — gemini-2-flash</div>
+          <span class="m-plan pro">Pro</span>
+        </div>
+        <div class="model-item">
+          <div class="m-name">Mixtral 8x22B</div>
+          <div class="m-provider">Fireworks / Together — mixtral</div>
+          <span class="m-plan pro">Pro</span>
+        </div>
+        <div class="model-item">
+          <div class="m-name">Qwen 2.5 72B</div>
+          <div class="m-provider">Nebius / Fireworks — qwen-72b</div>
+          <span class="m-plan pro">Pro</span>
+        </div>
+        <div class="model-item">
+          <div class="m-name">Ollama Local</div>
+          <div class="m-provider">Local — ollama</div>
+          <span class="m-plan free">Free</span> <span class="m-plan pro">Pro</span>
+        </div>
+      </div>
+      <p style="color:var(--fg2);font-size:13px;margin-top:16px;">+55 more models across 12 providers (NVIDIA, Nebius, Fireworks, Together, Groq, OpenAI, Anthropic, Google, DeepSeek, Mistral, xAI, Perplexity, DeepInfra, AI/ML API, OpenRouter)</p>
+    </div>
+
+    <!-- FAQ -->
+    <div class="faq">
+      <h3>Frequently asked questions</h3>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">What happens when I hit the free limit? <span class="arrow">▾</span></div>
+        <div class="faq-a open">You'll see a notice letting you know you've reached your daily limit. Limits reset every 24 hours. Upgrade to Pro for unlimited access.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Can I switch between plans? <span class="arrow">▾</span></div>
+        <div class="faq-a">Yes. Upgrade or downgrade anytime. If you downgrade, you'll keep Pro features until the end of your billing period.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">What models do I get on each plan? <span class="arrow">▾</span></div>
+        <div class="faq-a">Free tier includes Llama 3.1 8B via Groq and local Ollama. Pro adds 65+ models across 12 providers: Llama 70B, RakshakAI 14B, GPT-4o, GPT-4o Mini, Claude, DeepSeek, Gemini, Mixtral, Qwen 72B, Mistral, Grok, Perplexity, and more. Enterprise adds private/custom models.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Is my code stored or used for training? <span class="arrow">▾</span></div>
+        <div class="faq-a">No. RakshakAI does not store your code. All analysis is ephemeral — processed in memory and discarded immediately. For self-hosted Enterprise deployments, data never leaves your infrastructure.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Do I need an API key? <span class="arrow">▾</span></div>
+        <div class="faq-a">For the web UI, you can use the server proxy (which has a shared Groq key) or bring your own API key. For the CLI, you'll need to set environment variables. Local Ollama requires no API key at all.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">What is RakshakAI 14B? <span class="arrow">▾</span></div>
+        <div class="faq-a">Our fine-tuned security model based on Qwen2.5-Coder-14B-Instruct. Trained on 87K CWE security examples using QLoRA across 750 steps. Currently at 525/750 steps (70%). It specializes in CWE classification, vulnerability detection, and secure code generation.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Can I use RakshakAI in CI/CD? <span class="arrow">▾</span></div>
+        <div class="faq-a">Yes. The CLI supports headless JSON mode: <code style="background:var(--bg3);padding:2px 6px;border-radius:4px;font-size:12px;">rakshak scan src/ --json</code>. Exit codes indicate vulnerability status (0=clean, 1=vulns found). Integrates with GitHub Actions, GitLab CI, Jenkins, and more.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">What about refunds? <span class="arrow">▾</span></div>
+        <div class="faq-a">We offer a 14-day money-back guarantee on Pro plans. No questions asked. Contact rakshak@example.com for refund requests.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">How does RakshakAI compare to Claude Code? <span class="arrow">▾</span></div>
+        <div class="faq-a">RakshakAI's system prompt is 302 tokens vs Claude Code's 30,500 — 101x smaller. Cold start is 50ms vs 3,500ms. RakshakAI is free and open-source, supports 65+ models across 12 providers, and specializes in security vulnerability detection with 248 CWE classes. See our <a href="http://localhost:8080/benchmark" style="color:var(--accent);">benchmarks page</a> for detailed comparisons.</div>
+      </div>
+    </div>
+
+    <div style="margin-top:60px;padding:24px;background:var(--bg2);border:1px solid var(--border);border-radius:12px;">
+      <h3 style="font-size:20px;margin-bottom:8px;">Need something different?</h3>
+      <p style="color:var(--fg2);font-size:14px;margin-bottom:16px;">We offer custom plans for educational institutions, non-profits, and open-source projects.</p>
+      <a href="mailto:rakshak@example.com" class="plan-cta pro" style="max-width:300px;margin:0 auto;">Contact us</a>
+    </div>
+  </div>
+
+  <div class="footer">
+    RakshakAI — Open-source security code analysis ·
+    <a href="/">Chat</a> · <a href="http://localhost:8080/">Home</a> · <a href="http://localhost:8080/benchmark">Benchmarks</a> · <a href="http://localhost:8080/training">Training</a> ·
+    <a href="https://github.com/Muneerali199/RakshakAI">GitHub</a>
+  </div>
+
+  <script>
+  function toggleFaq(el) {
+    el.classList.toggle("open");
+    const answer = el.nextElementSibling;
+    answer.classList.toggle("open");
+  }
+  // Open first FAQ by default
+  document.addEventListener("DOMContentLoaded", () => {
+    const firstAnswer = document.querySelector(".faq-a");
+    if (firstAnswer) firstAnswer.classList.add("open");
+  });
+  </script>
+</body>
+</html>

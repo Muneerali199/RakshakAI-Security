@@ -1,0 +1,38 @@
+name: 'RakshakAI v2 Security Review'
+description: 'Reviews the PR diff with the RakshakAI v2 security-specialized LLM and posts a structured comment.'
+author: 'RakshakAI'
+branding:
+  icon: shield
+  color: red
+
+inputs:
+  server_url:
+    description: 'RakshakAI v2 server URL (POST /v2/review).'
+    required: true
+    default: 'http://localhost:8080'
+  fail_on:
+    description: 'Severity that causes the action to fail (critical, high, medium, low, none).'
+    required: false
+    default: 'none'
+  comment_on_pr:
+    description: 'Post a comment on the PR with the review.'
+    required: false
+    default: 'true'
+  languages:
+    description: 'Comma-separated language globs to include (default: all).'
+    required: false
+    default: ''
+
+runs:
+  using: 'node20'
+  main: 'dist/index.js'
+
+outputs:
+  findings_count:
+    description: 'Total findings reported.'
+  critical_count:
+    description: 'Findings with severity=critical.'
+  high_count:
+    description: 'Findings with severity=high.'
+  report_json:
+    description: 'Full JSON report.'
